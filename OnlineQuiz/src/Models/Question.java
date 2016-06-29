@@ -1,7 +1,7 @@
 package Models;
 
 public class Question {
-int a;
+
 	public enum type {
 		QuestionResponse, FillInTheBlank, MultipleChoice, 
 		PictureResponse, MultipleChoiceWithMultipleAnswers
