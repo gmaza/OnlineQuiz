@@ -58,7 +58,6 @@ public class UserRepository implements IUserRepository {
 	@Override
 	public void Save(User user) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public interface IUserRepository {
 	
 	public List<User> GetFriends(int id);
 	public List<User> GetFriends(String  username);
-	public List<User> GetFriends(User  user);
+	public List<User> GetFriends(User  user);	
 	
 	public String Login(String username, String Password);
 }
