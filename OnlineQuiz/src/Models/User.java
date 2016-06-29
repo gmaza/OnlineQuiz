@@ -9,6 +9,7 @@ public class User {
 	private int _age;
 	private String _mail;
 	private int _score;
+	private boolean _isAdmin;
 	
 	public int GetID(){
 		return _id;
@@ -57,13 +58,19 @@ public class User {
 	public void SetAge(int age){
 		_age = age;
 	}
-
 	
 	public int GetScore(){
 		return _score;
 	}
 	public void SetScore(int score){
 		_score = score;
+	}
+	
+	public boolean GetIsAdmin(){
+		return _isAdmin;
+	}
+	public void SetIsAdmin(boolean isAdmin){
+		_isAdmin = isAdmin;
 	}
 }
 

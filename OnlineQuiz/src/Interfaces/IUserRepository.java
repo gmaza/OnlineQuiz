@@ -9,17 +9,19 @@ public interface IUserRepository {
 	public User Get(String username);
 	public List<User> GetAll();
 	
-	public int Delete(int id);
-	public int Delete(String username);
-	public int Delete(User user);
+	public boolean Delete(int id);
+	public boolean Delete(String username);
+	public boolean Delete(User user);
 	
-	public int Update(User user);
+	public boolean Update(User user);
+	public boolean ChangePassword(int id, String NewPassword); 
 	
-	public void Save(User user);	
+	public void Save(User user);
+	public void SaveRange(List<User> users);
 	
 	public List<User> GetFriends(int id);
 	public List<User> GetFriends(String  username);
 	public List<User> GetFriends(User  user);
 	
-	public boolean Login(String username, String Password);
+	public String Login(String username, String Password);
 }
