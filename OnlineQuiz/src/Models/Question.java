@@ -25,7 +25,6 @@ public class Question {
 	}
 	public String GetQuestion(){
 		return question;
-		
 	}
 	public void SetQuestion(String question){
 		this.question = question;
