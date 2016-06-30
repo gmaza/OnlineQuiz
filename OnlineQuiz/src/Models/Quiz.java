@@ -7,6 +7,8 @@ public class Quiz {
 	private String _name;
 	private Date _createDate;
 	private User _author;
+	private int _questionsNum;
+	private int _takenNum;
 	
 	public int GetID(){
 		return _id;
@@ -34,5 +36,17 @@ public class Quiz {
 	}	
 	public void SetAuthor(User author){
 		_author = author;
+	}
+	public int GetNumberOfQuestions(){
+		return _questionsNum;
+	}
+	public void SetNumberOfQuestions(int questionsNum){
+		_questionsNum = questionsNum;
+	}
+	public int GetTakenNumber(){
+		return _takenNum;
+	}
+	public void SetTakenNumber(int takenNum){
+		_takenNum = takenNum;
 	}
 }
