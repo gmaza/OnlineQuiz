@@ -1,5 +1,6 @@
 package Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Interfaces.IQuestionRepository;
@@ -22,8 +23,16 @@ public class QuestionRepository implements IQuestionRepository {
 
 	@Override
 	public List<Question> GetAll(int quizID) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Question> questions = new ArrayList<Question>();
+		
+		for(int i=0; i< 5; i++){
+			Question question = new Question();
+			question.SetID(i);
+			question.SetQuestion("vin shechama venaxi?");
+			question.SetQuestionType(0);
+			questions.add(question);
+		}
+		return questions;
 	}
 
 	@Override

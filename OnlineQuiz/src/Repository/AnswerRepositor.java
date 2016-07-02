@@ -1,5 +1,6 @@
 package Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Interfaces.IAnswerRepository;
@@ -16,14 +17,14 @@ public class AnswerRepositor implements IAnswerRepository {
 
 	@Override
 	public List<Answer> GetAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Answer> answers = new ArrayList<Answer>();
+		return answers;
 	}
 
 	@Override
 	public List<Answer> GetAll(int questionID) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Answer> answers = new ArrayList<Answer>();
+		return answers;
 	}
 
 	@Override

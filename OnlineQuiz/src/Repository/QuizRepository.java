@@ -30,6 +30,9 @@ public class QuizRepository implements IQuizRepository {
 			user.SetUsername("user-" + i);
 			quiz.SetAuthor(user);
 			
+			quiz.SetNumberOfQuestions(7 + i);
+			quiz.SetTakenNumber(4 % 1);
+			
 			quizes.add(quiz);
 		}
 		return quizes; //TODO:

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="UTF-8"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -317,56 +317,89 @@
 		<!--main content start-->
 		<section id="main-content">
 			<section class="wrapper">
+
+
+
+
+
+
+
+
+
+				<div class="col-lg-12">
+					<section class="panel">
+						<header class="panel-heading"> Add New Question </header>
+						<div class="panel-body">
+							<form class="form-horizontal " method="get">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Question</label>
+									<div class="col-sm-10">
+										<input type="text" id="question" placeholder="Question"
+											name="question" class="form-control">
+									</div>
+
+								</div>
+								<div class="form-group">
+									<div class="col-sm-10">
+										<button type="submit" class="btn btn-primary">Save</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</section>
+
+				</div>
+
+
 				<%@ page import="Repository.UnitOfWork"%>
-				<%@ page import="Models.Quiz"%>
+				<%@ page import="Models.*"%>
 				<%@ page import="java.util.List"%>
-
-				<%!private UnitOfWork uwork = new UnitOfWork();
-				private List<Quiz> quizes = uwork.GetQuizes().GetAll();%>
-
-				<div class="row">
-					<div class="col-lg-12"><br/>
-					<div class="btn-group">
-												<a class="btn btn-success" href="/OnlineQuiz/CreateQuiz.jsp">Add New</a>
-											</div><br/>
-						<section class="panel">
-							<header class="panel-heading"> Quizes </header>
-
-							<table class="table table-striped table-advance table-hover">
+				<%!int quistionID = -1;
+	private UnitOfWork uwork = new UnitOfWork();
+	private List<Answer> answers = uwork.GetAnswers().GetAll();%>
+				
+				<div class="col-lg-12">
+					<section class="panel">
+						<header class="panel-heading"> Answers </header>
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Answer</th>
+										<th>Edit/Delete</th>
+									</tr>
+								</thead>
 								<tbody>
-									<tr>
-										<th><i class="icon_profile"></i> Name</th>
-										<th><i class="icon_calendar"></i> Author</th>
-										<th><i class="icon_mail_alt"></i> Create Date</th>
-										<th><i class="icon_pin_alt"></i> Question Quantity</th>
-										<th><i class="icon_mobile"></i> done</th>
-										<th><i class="icon_cogs"></i> Start</th>
-									</tr>
 									<%
-										for (Quiz quiz : quizes) {
-									%>
+												for (Answer anwser : answers) {
+											%>
 									<tr>
+										<td>1</td>
+										<td><%=anwser.GetID()%></td>
 
-										<td><%=quiz.GetName()%></td>
-										<td><%=quiz.GetAuthor().GetUsername()%></td>
-										<td><%=quiz.GetDate()%></td>
-										<td><%=quiz.GetNumberOfQuestions()%></td>
-										<td><%=quiz.GetTakenNumber()%></td>
-										<td>
-											<div class="btn-group">
-												<a class="btn btn-success"
-													href="/TakeQuiz/?quiz=<%=quiz.GetID()%>">Start</a>
-											</div>
-										</td>
+										<td><%= anwser.GetAnswer() %></td>
+										<td><div class="btn-group">
+												<a class="btn btn-primary" href="#">Edit</a> <a
+													class="btn btn-danger" href="#">Delete</a>
+											</div></td>
 									</tr>
 									<%
-										}
-									%>
+												}
+											%>
+
+
 								</tbody>
 							</table>
-						</section>
-					</div>
+						</div>
+
+					</section>
 				</div>
+
+
+
+
+
 
 			</section>
 		</section>
@@ -417,50 +450,54 @@
 	<script src="js/charts.js"></script>
 	<script src="js/jquery.slimscroll.min.js"></script>
 	<script>
-		//knob
-		$(function() {
-			$(".knob").knob({
-				'draw' : function() {
-					$(this.i).val(this.cv + '%')
-				}
-			})
-		});
 
-		//carousel
-		$(document).ready(function() {
-			$("#owl-slider").owlCarousel({
-				navigation : true,
-				slideSpeed : 300,
-				paginationSpeed : 400,
-				singleItem : true
+      //knob
+      $(function() {
+        $(".knob").knob({
+          'draw' : function () { 
+            $(this.i).val(this.cv + '%')
+          }
+        })
+      });
 
-			});
-		});
+      //carousel
+      $(document).ready(function() {
+          $("#owl-slider").owlCarousel({
+              navigation : true,
+              slideSpeed : 300,
+              paginationSpeed : 400,
+              singleItem : true
 
-		//custom select box
+          });
+      });
 
-		$(function() {
-			$('select.styled').customSelect();
-		});
+      //custom select box
 
-		/* ---------- Map ---------- */
-		$(function() {
-			$('#map').vectorMap({
-				map : 'world_mill_en',
-				series : {
-					regions : [ {
-						values : gdpData,
-						scale : [ '#000', '#000' ],
-						normalizeFunction : 'polynomial'
-					} ]
-				},
-				backgroundColor : '#eef3f7',
-				onLabelShow : function(e, el, code) {
-					el.html(el.html() + ' (GDP - ' + gdpData[code] + ')');
-				}
-			});
-		});
-	</script>
+      $(function(){
+          $('select.styled').customSelect();
+      });
+	  
+	  /* ---------- Map ---------- */
+	$(function(){
+	  $('#map').vectorMap({
+	    map: 'world_mill_en',
+	    series: {
+	      regions: [{
+	        values: gdpData,
+	        scale: ['#000', '#000'],
+	        normalizeFunction: 'polynomial'
+	      }]
+	    },
+		backgroundColor: '#eef3f7',
+	    onLabelShow: function(e, el, code){
+	      el.html(el.html()+' (GDP - '+gdpData[code]+')');
+	    }
+	  });
+	});
+
+
+
+  </script>
 
 </body>
 </html>

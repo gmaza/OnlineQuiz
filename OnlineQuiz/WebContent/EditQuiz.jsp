@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="UTF-8"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -317,56 +317,114 @@
 		<!--main content start-->
 		<section id="main-content">
 			<section class="wrapper">
+
+
+
+
+
+
+
+
+
+				<div class="col-lg-12">
+					<section class="panel">
+						<header class="panel-heading"> Edit Quiz </header>
+						<div class="panel-body">
+							<form class="form-horizontal " method="get">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Quiz Name</label>
+									<div class="col-sm-10">
+										<input type="text" id="name" placeholder="name" name="name"
+											class="form-control">
+									</div>
+
+								</div>
+								<div class="form-group">
+									<div class="col-sm-10">
+										<button type="submit" class="btn btn-primary">Save</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</section>
+
+				</div>
+
 				<%@ page import="Repository.UnitOfWork"%>
-				<%@ page import="Models.Quiz"%>
+				<%@ page import="Models.*"%>
 				<%@ page import="java.util.List"%>
+				<%!int quizID = -1;
+	private UnitOfWork uwork = new UnitOfWork();
+	private List<Question> questions = uwork.GetQuestions().GetAll(quizID);%>
 
-				<%!private UnitOfWork uwork = new UnitOfWork();
-				private List<Quiz> quizes = uwork.GetQuizes().GetAll();%>
 
-				<div class="row">
-					<div class="col-lg-12"><br/>
-					<div class="btn-group">
-												<a class="btn btn-success" href="/OnlineQuiz/CreateQuiz.jsp">Add New</a>
-											</div><br/>
+		<div class="col-lg-12">
+					<section class="panel">
+						<header class="panel-heading"> Add New Question </header>
+						<div class="panel-body">
+							<form class="form-horizontal " method="get">
+								
+								<div class="form-group">
+									<div class="col-sm-10">
+										<a href="CreateQuestionResponse.jsp" class="btn btn-primary">Add Question-Response</a>
+										<a href="#" class="btn btn-primary">Type 1</a>
+										<a href="#" class="btn btn-primary">Type 1</a>
+										<a href="#" class="btn btn-primary">Type 1</a>
+										<a href="#" class="btn btn-primary">Type 1</a>
+										<a href="#" class="btn btn-primary">Type 1</a>
+										<a href="#" class="btn btn-primary">Type 1</a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</section>
+
+				</div>
+
+
+				
+					<div class="col-lg-12">
 						<section class="panel">
-							<header class="panel-heading"> Quizes </header>
+							<header class="panel-heading"> Questions </header>
+							<div class="table-responsive">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Question</th>
+											<th>Type</th>
+											<th>Edit/Delete</th>
+										</tr>
+									</thead>
+									<tbody>
+										<%
+												for (Question question : questions) {
+											%>
+										<tr>
+												<td>1</td>
+												<td><%=question.GetID()%></td>
+											
+												<td><%=question.GetQuestionType() %></td>
+												<td><div class="btn-group">
+														<a class="btn btn-primary" href="#">Edit</a> <a
+															class="btn btn-danger" href="#">Delete</a>
+													</div></td>
+											</tr>
+										<%
+												}
+											%>
+									
+										
+									</tbody>
+								</table>
+							</div>
 
-							<table class="table table-striped table-advance table-hover">
-								<tbody>
-									<tr>
-										<th><i class="icon_profile"></i> Name</th>
-										<th><i class="icon_calendar"></i> Author</th>
-										<th><i class="icon_mail_alt"></i> Create Date</th>
-										<th><i class="icon_pin_alt"></i> Question Quantity</th>
-										<th><i class="icon_mobile"></i> done</th>
-										<th><i class="icon_cogs"></i> Start</th>
-									</tr>
-									<%
-										for (Quiz quiz : quizes) {
-									%>
-									<tr>
-
-										<td><%=quiz.GetName()%></td>
-										<td><%=quiz.GetAuthor().GetUsername()%></td>
-										<td><%=quiz.GetDate()%></td>
-										<td><%=quiz.GetNumberOfQuestions()%></td>
-										<td><%=quiz.GetTakenNumber()%></td>
-										<td>
-											<div class="btn-group">
-												<a class="btn btn-success"
-													href="/TakeQuiz/?quiz=<%=quiz.GetID()%>">Start</a>
-											</div>
-										</td>
-									</tr>
-									<%
-										}
-									%>
-								</tbody>
-							</table>
 						</section>
 					</div>
-				</div>
+			
+
+
+
 
 			</section>
 		</section>
