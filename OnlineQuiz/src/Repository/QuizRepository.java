@@ -1,5 +1,7 @@
 package Repository;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import Interfaces.IQuizRepository;
@@ -16,8 +18,24 @@ public class QuizRepository implements IQuizRepository {
 
 	@Override
 	public List<Quiz> GetAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Quiz> quizes = new ArrayList<Quiz>();
+		for(int i=0; i< 10; i++){
+			
+			Quiz quiz = new Quiz();
+			quiz.SetID(i);
+			quiz.SetDate(new Date());
+			quiz.SetName("quiz-" + i);
+			
+			User user = new User();
+			user.SetUsername("user-" + i);
+			quiz.SetAuthor(user);
+			
+			quiz.SetNumberOfQuestions(7 + i);
+			quiz.SetTakenNumber(4 % 1);
+			
+			quizes.add(quiz);
+		}
+		return quizes; //TODO:
 	}
 
 	@Override
