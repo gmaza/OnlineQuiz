@@ -1,3 +1,4 @@
+<%@page import="Repository.UserRepository"%>
 <%@page import="java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -9,23 +10,44 @@
 </head>
 <body>
 <%@ page import="Database.DatabaseHelper" %>
+<%@ page import="Models.User" %>
+<%@ page import="Helper.HashHelper" %>
 <%! DatabaseHelper db= new DatabaseHelper(); 
 HashMap<String, String> mymap = new HashMap<String, String>();
 HashMap<String, String> mymap2 = new HashMap<String, String>();
+HashMap<String, String> mymap3 = new HashMap<String, String>();
+UserRepository repo = new UserRepository();
+User useri = new User();
+HashHelper hhp = new HashHelper();
 %>
 <%
 mymap2.put("UserName", "'5'");
 mymap2.put("FirstName", "'5'");
-db.Delete("users", mymap2);
+//db.Delete("users", mymap2);
 %>
 
 <%
 mymap.put("UserName", "'7'");
+mymap.put("PasswordHash", "'7'");
 mymap.put("FirstName", "'7'");
 mymap.put("LastName", "'7'");
+mymap.put("Age", "7");
 mymap.put("Mail", "'7'");
-mymap.put("Password", "'7'");
-db.Insert("users", mymap); %>
+//db.Insert("users", mymap); %>
+<%
+mymap3.put("UserName", "'gukamaz'");
+mymap3.put("FirstName", "'gukani'");
+//db.Update("users", mymap3, 1);
+useri.SetUsername("gukacho");
+useri.SetPasswordHash(hhp.Hash("gukani57"));
+useri.SetFirstname("Guka");
+useri.SetLastname("Mazanashvili");
+useri.SetAge(22);
+useri.SetMail("bla@bla.com");
+repo.Save(useri);
+repo.Login("gukacho", "gukani57");
+%>
+
 Hii
 sdfsdf
 <h1>id na xui</h1>
