@@ -337,11 +337,11 @@
 										<input type="text" id="question" placeholder="Question"
 											name="question" class="form-control">
 									</div>
-
 								</div>
 								<div class="form-group">
 									<div class="col-sm-10">
 										<button type="submit" class="btn btn-primary">Save</button>
+										<a href="CreateQuestionResponseAnswer.jsp" class="btn btn-success">Add Correct Answer</a>
 									</div>
 								</div>
 							</form>

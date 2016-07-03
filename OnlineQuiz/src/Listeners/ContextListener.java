@@ -33,7 +33,6 @@ public class ContextListener implements ServletContextListener {
      */
     public void contextInitialized(ServletContextEvent arg0)  { 
     	DatabaseHelper helper = new DatabaseHelper();
-		helper.rame();
          arg0.getServletContext().setAttribute("uwork", new UnitOfWork());
     }
 	

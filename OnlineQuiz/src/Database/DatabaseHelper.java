@@ -80,6 +80,4 @@ public class DatabaseHelper {
 		query = query.substring(0, query.length()-4) + ";";
 		ExcecuteQuery(query);
 	}
-
-
 }
