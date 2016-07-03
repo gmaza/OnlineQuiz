@@ -3,6 +3,10 @@ package Models;
 import java.util.Date;
 
 public class Quiz {
+	public Quiz(){
+		_createDate = new Date();
+	}
+	
 	private int _id;
 	private String _name;
 	private Date _createDate;

@@ -35,15 +35,20 @@ public class DatabaseHelper {
 		boolean bo;
 		int returnID = -1;
 		try{
-			PreparedStatement stmt = con.prepareStatement(query);
+			PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.execute("USE onlinequizdb");
 			//		stmt.execute("USE " + "onlinequizdb");
 
-			bo = stmt.execute();
-			ResultSet rs = stmt.getGeneratedKeys();
-			if (rs.next()){
-				returnID=rs.getInt(1);
-			}
+			//bo = stmt.execute();
+			returnID= stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+			
+		    ResultSet rs = stmt.getGeneratedKeys();
+	        if (rs.next()){
+	        	returnID=rs.getInt(1);
+	        }
+			//if (rs.next()){
+			//	returnID=rs.getInt(1);
+			//}
 			/*	while(rs.next()) {
 				String name = rs.getString("metropolis");
 

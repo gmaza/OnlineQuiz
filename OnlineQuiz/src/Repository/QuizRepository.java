@@ -2,6 +2,8 @@ package Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -116,9 +118,11 @@ public class QuizRepository implements IQuizRepository {
 
 	@Override
 	public int Save(Quiz quiz) {
+		String newstring = new SimpleDateFormat("yyyy-MM-dd").format(quiz.GetDate());
+		
 		HashMap<String,String> mp = new HashMap<String,String>();
 		mp.put("QuizName","'" +quiz.GetName()+"'");
-		mp.put("CreateDate","'" +quiz.GetDate()+"'");
+		mp.put("CreateDate","'" +newstring+"'");
 		mp.put("Author","" +quiz.GetAuthor().GetID());
 		mp.put("QuestionsNum","" +quiz.GetNumberOfQuestions());
 		mp.put("TakenNum",""+quiz.GetTakenNumber());

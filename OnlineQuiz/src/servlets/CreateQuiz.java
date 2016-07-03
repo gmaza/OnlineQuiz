@@ -62,9 +62,9 @@ public class CreateQuiz extends HttpServlet {
 		quiz.SetName(name);
 		quiz.SetAuthor(uwork.GetUsers().Get(username));
 		
-		uwork.GetQuizes().Save(quiz);
+		int id = uwork.GetQuizes().Save(quiz);
 		
-		
+		response.sendRedirect("EditQuiz?id="+id);
 	}
 
 }
