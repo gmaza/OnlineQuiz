@@ -175,6 +175,7 @@ public class UserRepository implements IUserRepository {
 	@Override
 	public String Login(String username, String Password) {
 		User user = Get(username);
+		if(user == null) return "";
 		HashHelper hh = new HashHelper();
 		String st = hh.Hash(Password);
 		if (user.GetPasswordHash().equals(st)){

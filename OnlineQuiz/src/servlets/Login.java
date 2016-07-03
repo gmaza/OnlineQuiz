@@ -3,11 +3,13 @@ package servlets;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Database.DatabaseHelper;
+import Repository.UserRepository;
 
 /**
  * Servlet implementation class Login
@@ -37,7 +39,23 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		UserRepository userRepo = new UserRepository();
+		String token = userRepo.Login(username, password);
+		if(token.isEmpty()) {
+			response.sendRedirect("Login.jsp");
+			return;
+		}
+		Cookie cookie = new Cookie("username", username);
+	    response.addCookie(cookie);
+	    
+	    Cookie cookieToken = new Cookie("loginToken", token);
+	    response.addCookie(cookieToken);
+	    response.addCookie(cookie);
+	    
+	    response.sendRedirect("index.jsp");
 	}
 
 }

@@ -3,9 +3,13 @@ package servlets;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import Models.User;
+import Repository.UserRepository;
 
 /**
  * Servlet implementation class SignUp
@@ -42,7 +46,27 @@ public class SignUp extends HttpServlet {
 		String age = request.getParameter("age");
 		String mail = request.getParameter("mail");
 		
+		User user = new User();
+		user.SetAge(Integer.parseInt(age));
+		user.SetFirstname(firstname);
+		user.SetLastname(lastname);
+		user.SetMail(mail);
+		user.SetScore(0);
+		user.SetUsername(username);
+		user.SetPasswordHash(password);
 		
+		UserRepository userRepo = new UserRepository();
+		userRepo.Save(user);
+		
+		String token = userRepo.Login(username, password);
+		
+		Cookie cookie = new Cookie("username", username);
+	    response.addCookie(cookie);
+	    
+	    Cookie cookieToken = new Cookie("loginToken", token);
+	    response.addCookie(cookieToken);
+	    
+	    response.sendRedirect("index.jsp");
 	}
 
 }

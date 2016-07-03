@@ -318,17 +318,47 @@
 		<section id="main-content">
 			<section class="wrapper">
 				<%@ page import="Repository.UnitOfWork"%>
-				<%@ page import="Models.Quiz"%>
+				<%@ page import="Models.*"%>
 				<%@ page import="java.util.List"%>
 
 				<%!private UnitOfWork uwork = new UnitOfWork();
 				private List<Quiz> quizes = uwork.GetQuizes().GetAll();%>
 
+				<%
+					String username = "";
+					String loginToken = "";
+					Cookie cookie = null;
+					Cookie[] cookies = null;
+					cookies = request.getCookies();
+					if (cookies != null) {
+						for (int i = 0; i < cookies.length; i++) {
+							cookie = cookies[i];
+							if (cookie.getName().equals("username"))
+								username = cookie.getValue();
+							else if (cookie.getName().equals("loginToken"))
+								loginToken = cookie.getValue();
+						}
+					}
+
+					if (cookies == null || username.isEmpty() || loginToken.isEmpty())
+						response.sendRedirect("Login.jsp");
+					else{
+						User user = uwork.GetUsers().Get(username);
+						if(user == null || !user.GetLoginToken().equals(loginToken)){
+							response.sendRedirect("Login.jsp");
+						}
+					}					
+				%>
+
+
 				<div class="row">
-					<div class="col-lg-12"><br/>
-					<div class="btn-group">
-												<a class="btn btn-success" href="/OnlineQuiz/CreateQuiz.jsp">Add New</a>
-											</div><br/>
+					<div class="col-lg-12">
+						<br />
+						<div class="btn-group">
+							<a class="btn btn-success" href="/OnlineQuiz/CreateQuiz.jsp">Add
+								New</a>
+						</div>
+						<br />
 						<section class="panel">
 							<header class="panel-heading"> Quizes </header>
 
