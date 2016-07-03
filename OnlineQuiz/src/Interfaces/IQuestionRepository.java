@@ -16,6 +16,6 @@ public interface IQuestionRepository {
 	
 	public boolean Update(Question question);
 	
-	public void Save(Question question);
-	public void SaveRange(List<Quiz> questions);
+	public int Save(Question question);
+	public void SaveRange(List<Question> questions);
 }
