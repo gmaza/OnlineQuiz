@@ -15,6 +15,6 @@ public interface IAnswerRepository {
 	
 	public boolean Update(Answer answer);
 	
-	public void Save(Answer answer);
+	public int Save(Answer answer);
 	public void SaveRange(List<Answer> answers);
 }

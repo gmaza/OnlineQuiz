@@ -26,10 +26,10 @@ public class Answer {
 	public void SetAnswer(String answer){
 		this.answer = answer;
 	}
-	public boolean GetQuestionType(){
+	public boolean GetAnswerType(){
 		return this.answerType;
 	}
-	public void SetQuestionType(boolean answerType){
+	public void SetAnswerType(boolean answerType){
 		this.answerType = answerType;
 	}
 	
