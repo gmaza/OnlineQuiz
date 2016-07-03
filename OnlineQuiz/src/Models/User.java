@@ -10,6 +10,7 @@ public class User {
 	private String _mail;
 	private int _score;
 	private boolean _isAdmin;
+	private String _loginToken;
 	
 	public int GetID(){
 		return _id;
@@ -26,6 +27,13 @@ public class User {
 		_username = username;
 	}
 
+	public String GetPasswordHash(){
+		return _passwordHash;
+	}
+	
+	public void SetPasswordHash(String passwordHash){
+		_passwordHash = passwordHash;
+	}
 	
 	public String GetFirstname(){
 		return _firstname;
@@ -71,6 +79,12 @@ public class User {
 	}
 	public void SetIsAdmin(boolean isAdmin){
 		_isAdmin = isAdmin;
+	}
+	public String GetLoginToken(){
+		return _loginToken;
+	}
+	public void SetLoginToken(String loginToken){
+		_loginToken = loginToken;
 	}
 }
 

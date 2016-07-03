@@ -31,10 +31,8 @@ public class DatabaseHelper {
 		}
 	}
 
-	public ResultSet ExcecuteQuery(String query){
-		ResultSet rs = null;
+	public void ExcecuteQuery(String query){
 		boolean bo;
-		String stt;
 		try{
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.execute("USE onlinequizdb");
@@ -49,10 +47,29 @@ public class DatabaseHelper {
 			}*/
 		}
 		catch (Exception ex){
-			stt = ex.getMessage();
+			String ragaca = ex.getMessage();
 		}
-		return rs;
 	}
+	
+	public ResultSet ExcecuteSelect(String query){
+			ResultSet rs = null;
+			try{
+				PreparedStatement stmt = con.prepareStatement(query);
+				stmt.execute("USE onlinequizdb");
+				//		stmt.execute("USE " + "onlinequizdb");
+
+				rs = stmt.executeQuery(query);
+
+				/*	while(rs.next()) {
+					String name = rs.getString("metropolis");
+
+					long pop = rs.getLong("population");
+				}*/
+			}
+			catch (Exception ex){
+			}
+			return rs;
+		}
 
 	public void Insert(String tablename, Map<String, String> keyValues ){
 		String query = "INSERT INTO " + tablename;
@@ -80,4 +97,17 @@ public class DatabaseHelper {
 		query = query.substring(0, query.length()-4) + ";";
 		ExcecuteQuery(query);
 	}
+
+	public void Update(String tablename, Map<String, String> keyValues, int id ){
+		String query = "UPDATE " + tablename + " SET ";
+		for(Entry<String, String> entry : keyValues.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue();
+			query += key + "=" + value + ", ";
+		}
+		query = query.substring(0, query.length()-2);
+		query += " WHERE ID = " + id + ";";
+		ExcecuteQuery(query);
+	}
+
 }

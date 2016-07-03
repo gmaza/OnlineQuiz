@@ -1,9 +1,11 @@
+package Helper;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class HashHelper {
 	public String Hash(String value){
-		MessageDigest md = null;
+		return value;
+/*		MessageDigest md = null;
 		try {
 			md = MessageDigest.getInstance("SHA");
 			md.update(value.getBytes());
@@ -12,5 +14,6 @@ public class HashHelper {
 			e.printStackTrace();
 		}
 		return md.digest().toString();
+		*/
 	}
 }
