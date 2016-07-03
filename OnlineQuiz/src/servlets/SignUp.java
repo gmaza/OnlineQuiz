@@ -56,6 +56,12 @@ public class SignUp extends HttpServlet {
 		user.SetPasswordHash(password);
 		
 		UserRepository userRepo = new UserRepository();
+		
+		if(userRepo.Get(username)==null || !password.equals(confirmPassword) || password.isEmpty()){
+			response.sendRedirect("Register.jsp");
+			return;
+		}
+		
 		userRepo.Save(user);
 		
 		String token = userRepo.Login(username, password);

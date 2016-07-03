@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -328,20 +328,20 @@
 
 				<div class="col-lg-12">
 					<section class="panel">
-						<header class="panel-heading"> Edit Quiz </header>
+						<header class="panel-heading"> Add New Question </header>
 						<div class="panel-body">
 							<form class="form-horizontal " method="get">
 								<div class="form-group">
-									<label class="col-sm-2 control-label">Quiz Name</label>
+									<label class="col-sm-2 control-label">Question</label>
 									<div class="col-sm-10">
-										<input type="text" id="name" placeholder="name" name="name"
-											class="form-control">
+										<input type="text" id="question" placeholder="Question"
+											name="question" class="form-control">
 									</div>
-
 								</div>
 								<div class="form-group">
 									<div class="col-sm-10">
 										<button type="submit" class="btn btn-primary">Save</button>
+										<a href="CreateMultipleChoiceAnswer.jsp" class="btn btn-success">Add New Answer</a>
 									</div>
 								</div>
 							</form>
@@ -349,79 +349,54 @@
 					</section>
 
 				</div>
+
 
 				<%@ page import="Repository.UnitOfWork"%>
 				<%@ page import="Models.*"%>
 				<%@ page import="java.util.List"%>
-				<%!int quizID = -1;
+				<%!int quistionID = -1;
 	private UnitOfWork uwork = new UnitOfWork();
-	private List<Question> questions = uwork.GetQuestions().GetAll(quizID);%>
-
-
-		<div class="col-lg-12">
+	private List<Answer> answers = uwork.GetAnswers().GetAll();%>
+				
+				<div class="col-lg-12">
 					<section class="panel">
-						<header class="panel-heading"> Add New Question </header>
-						<div class="panel-body">
-							<form class="form-horizontal " method="get">
-								
-								<div class="form-group">
-									<div class="col-sm-10">
-										<a href="CreateQuestionResponse.jsp" class="btn btn-primary">Add Question-Response</a>
-										<a href="CreateMultipleChoice.jsp" class="btn btn-primary">Add Multiple Choice</a>
-										<a href="CreateImage" class="btn btn-primary">Type 1</a>
-										<a href="#" class="btn btn-primary">Type 1</a>
-										<a href="#" class="btn btn-primary">Type 1</a>
-										<a href="#" class="btn btn-primary">Type 1</a>
-										<a href="#" class="btn btn-primary">Type 1</a>
-									</div>
-								</div>
-							</form>
-						</div>
-					</section>
+						<header class="panel-heading"> Answers </header>
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Answer</th>
+										<th>Edit/Delete</th>
+									</tr>
+								</thead>
+								<tbody>
+									<%
+												for (Answer anwser : answers) {
+											%>
+									<tr>
+										<td>1</td>
+										<td><%=anwser.GetID()%></td>
 
+										<td><%= anwser.GetAnswer() %></td>
+										<td><div class="btn-group">
+												<a class="btn btn-primary" href="#">Edit</a> <a
+													class="btn btn-danger" href="#">Delete</a>
+											</div></td>
+									</tr>
+									<%
+												}
+											%>
+
+
+								</tbody>
+							</table>
+						</div>
+
+					</section>
 				</div>
 
 
-				
-					<div class="col-lg-12">
-						<section class="panel">
-							<header class="panel-heading"> Questions </header>
-							<div class="table-responsive">
-								<table class="table">
-									<thead>
-										<tr>
-											<th>ID</th>
-											<th>Question</th>
-											<th>Type</th>
-											<th>Edit/Delete</th>
-										</tr>
-									</thead>
-									<tbody>
-										<%
-												for (Question question : questions) {
-											%>
-										<tr>
-												<td>1</td>
-												<td><%=question.GetID()%></td>
-											
-												<td><%=question.GetQuestionType() %></td>
-												<td><div class="btn-group">
-														<a class="btn btn-primary" href="#">Edit</a> <a
-															class="btn btn-danger" href="#">Delete</a>
-													</div></td>
-											</tr>
-										<%
-												}
-											%>
-									
-										
-									</tbody>
-								</table>
-							</div>
-
-						</section>
-					</div>
-			
 
 
 
@@ -475,50 +450,54 @@
 	<script src="js/charts.js"></script>
 	<script src="js/jquery.slimscroll.min.js"></script>
 	<script>
-		//knob
-		$(function() {
-			$(".knob").knob({
-				'draw' : function() {
-					$(this.i).val(this.cv + '%')
-				}
-			})
-		});
 
-		//carousel
-		$(document).ready(function() {
-			$("#owl-slider").owlCarousel({
-				navigation : true,
-				slideSpeed : 300,
-				paginationSpeed : 400,
-				singleItem : true
+      //knob
+      $(function() {
+        $(".knob").knob({
+          'draw' : function () { 
+            $(this.i).val(this.cv + '%')
+          }
+        })
+      });
 
-			});
-		});
+      //carousel
+      $(document).ready(function() {
+          $("#owl-slider").owlCarousel({
+              navigation : true,
+              slideSpeed : 300,
+              paginationSpeed : 400,
+              singleItem : true
 
-		//custom select box
+          });
+      });
 
-		$(function() {
-			$('select.styled').customSelect();
-		});
+      //custom select box
 
-		/* ---------- Map ---------- */
-		$(function() {
-			$('#map').vectorMap({
-				map : 'world_mill_en',
-				series : {
-					regions : [ {
-						values : gdpData,
-						scale : [ '#000', '#000' ],
-						normalizeFunction : 'polynomial'
-					} ]
-				},
-				backgroundColor : '#eef3f7',
-				onLabelShow : function(e, el, code) {
-					el.html(el.html() + ' (GDP - ' + gdpData[code] + ')');
-				}
-			});
-		});
-	</script>
+      $(function(){
+          $('select.styled').customSelect();
+      });
+	  
+	  /* ---------- Map ---------- */
+	$(function(){
+	  $('#map').vectorMap({
+	    map: 'world_mill_en',
+	    series: {
+	      regions: [{
+	        values: gdpData,
+	        scale: ['#000', '#000'],
+	        normalizeFunction: 'polynomial'
+	      }]
+	    },
+		backgroundColor: '#eef3f7',
+	    onLabelShow: function(e, el, code){
+	      el.html(el.html()+' (GDP - '+gdpData[code]+')');
+	    }
+	  });
+	});
+
+
+
+  </script>
 
 </body>
 </html>
