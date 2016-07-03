@@ -324,7 +324,18 @@
 
 
 
-
+		<%@ page import="Repository.UnitOfWork"%>
+				<%@ page import="Models.*"%>
+				<%@ page import="java.util.List"%>
+				<%!int quizID = -1;
+				Quiz quiz;
+	private UnitOfWork uwork = new UnitOfWork();
+	private List<Question> questions;%>
+				<%
+					int quizID = Integer.parseInt(request.getParameter("quizID"));
+					questions = uwork.GetQuestions().GetAll(quizID);
+					quiz = uwork.GetQuizes().Get(quizID);
+				%>
 
 				<div class="col-lg-12">
 					<section class="panel">
@@ -334,7 +345,7 @@
 								<div class="form-group">
 									<label class="col-sm-2 control-label">Quiz Name</label>
 									<div class="col-sm-10">
-										<input type="text" id="name" placeholder="name" name="name"
+										<input type="text" id="name" value="<%= quiz.GetName() %>" placeholder="name" name="name"
 											class="form-control">
 									</div>
 
@@ -350,29 +361,24 @@
 
 				</div>
 
-				<%@ page import="Repository.UnitOfWork"%>
-				<%@ page import="Models.*"%>
-				<%@ page import="java.util.List"%>
-				<%!int quizID = -1;
-	private UnitOfWork uwork = new UnitOfWork();
-	private List<Question> questions = uwork.GetQuestions().GetAll(quizID);%>
+		
 
-
-		<div class="col-lg-12">
+				<div class="col-lg-12">
 					<section class="panel">
 						<header class="panel-heading"> Add New Question </header>
 						<div class="panel-body">
 							<form class="form-horizontal " method="get">
-								
+
 								<div class="form-group">
 									<div class="col-sm-10">
-										<a href="CreateQuestionResponse.jsp" class="btn btn-primary">Add Question-Response</a>
-										<a href="CreateMultipleChoice.jsp" class="btn btn-primary">Add Multiple Choice</a>
-										<a href="CreateImage" class="btn btn-primary">Type 1</a>
-										<a href="#" class="btn btn-primary">Type 1</a>
-										<a href="#" class="btn btn-primary">Type 1</a>
-										<a href="#" class="btn btn-primary">Type 1</a>
-										<a href="#" class="btn btn-primary">Type 1</a>
+										<a href="CreateQuestionResponse.jsp" class="btn btn-primary">Add
+											Question-Response</a> <a href="CreateMultipleChoice.jsp"
+											class="btn btn-primary">Add Multiple Choice</a> <a
+											href="CreateImage" class="btn btn-primary">Type 1</a> <a
+											href="#" class="btn btn-primary">Type 1</a> <a href="#"
+											class="btn btn-primary">Type 1</a> <a href="#"
+											class="btn btn-primary">Type 1</a> <a href="#"
+											class="btn btn-primary">Type 1</a>
 									</div>
 								</div>
 							</form>
@@ -382,46 +388,46 @@
 				</div>
 
 
-				
-					<div class="col-lg-12">
-						<section class="panel">
-							<header class="panel-heading"> Questions </header>
-							<div class="table-responsive">
-								<table class="table">
-									<thead>
-										<tr>
-											<th>ID</th>
-											<th>Question</th>
-											<th>Type</th>
-											<th>Edit/Delete</th>
-										</tr>
-									</thead>
-									<tbody>
-										<%
-												for (Question question : questions) {
-											%>
-										<tr>
-												<td>1</td>
-												<td><%=question.GetID()%></td>
-											
-												<td><%=question.GetQuestionType() %></td>
-												<td><div class="btn-group">
-														<a class="btn btn-primary" href="#">Edit</a> <a
-															class="btn btn-danger" href="#">Delete</a>
-													</div></td>
-											</tr>
-										<%
-												}
-											%>
-									
-										
-									</tbody>
-								</table>
-							</div>
 
-						</section>
-					</div>
-			
+				<div class="col-lg-12">
+					<section class="panel">
+						<header class="panel-heading"> Questions </header>
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Question</th>
+										<th>Type</th>
+										<th>Edit/Delete</th>
+									</tr>
+								</thead>
+								<tbody>
+									<%
+										for (Question question : questions) {
+									%>
+									<tr>
+										<td>1</td>
+										<td><%=question.GetID()%></td>
+
+										<td><%=question.GetQuestionType()%></td>
+										<td><div class="btn-group">
+												<a class="btn btn-primary" href="#">Edit</a> <a
+													class="btn btn-danger" href="#">Delete</a>
+											</div></td>
+									</tr>
+									<%
+										}
+									%>
+
+
+								</tbody>
+							</table>
+						</div>
+
+					</section>
+				</div>
+
 
 
 
