@@ -31,15 +31,19 @@ public class DatabaseHelper {
 		}
 	}
 
-	public void ExcecuteQuery(String query){
+	public int ExcecuteQuery(String query){
 		boolean bo;
+		int returnID = -1;
 		try{
 			PreparedStatement stmt = con.prepareStatement(query);
 			stmt.execute("USE onlinequizdb");
 			//		stmt.execute("USE " + "onlinequizdb");
 
 			bo = stmt.execute();
-
+			ResultSet rs = stmt.getGeneratedKeys();
+			if (rs.next()){
+				returnID=rs.getInt(1);
+			}
 			/*	while(rs.next()) {
 				String name = rs.getString("metropolis");
 
@@ -49,6 +53,7 @@ public class DatabaseHelper {
 		catch (Exception ex){
 			String ragaca = ex.getMessage();
 		}
+		return returnID;
 	}
 	
 	public ResultSet ExcecuteSelect(String query){
@@ -71,7 +76,7 @@ public class DatabaseHelper {
 			return rs;
 		}
 
-	public void Insert(String tablename, Map<String, String> keyValues ){
+	public int Insert(String tablename, Map<String, String> keyValues ){
 		String query = "INSERT INTO " + tablename;
 		String keys = "";
 		String values = "";
@@ -84,7 +89,7 @@ public class DatabaseHelper {
 		keys = keys.substring(0, keys.length()-1);
 		values = values.substring(0, values.length()-1);
 		query += " (" + keys + ") " + "values (" + values + ");";
-		ExcecuteQuery(query);
+		return ExcecuteQuery(query);
 	}
 
 	public void Delete(String tablename,  Map<String, String> keyValues){

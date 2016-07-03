@@ -115,14 +115,14 @@ public class QuizRepository implements IQuizRepository {
 	}
 
 	@Override
-	public void Save(Quiz quiz) {
+	public int Save(Quiz quiz) {
 		HashMap<String,String> mp = new HashMap<String,String>();
 		mp.put("QuizName","'" +quiz.GetName()+"'");
 		mp.put("CreateDate","'" +quiz.GetDate()+"'");
 		mp.put("Author","" +quiz.GetAuthor().GetID());
 		mp.put("QuestionsNum","" +quiz.GetNumberOfQuestions());
 		mp.put("TakenNum",""+quiz.GetTakenNumber());
-		helper.Insert("quizzes", mp);
+		return helper.Insert("quizzes", mp);
 	}
 
 	@Override

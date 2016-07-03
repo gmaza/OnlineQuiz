@@ -16,6 +16,6 @@ public interface IQuizRepository {
 	
 	public boolean Update(Quiz quiz);
 	
-	public void Save(Quiz quiz);
+	public int Save(Quiz quiz);
 	public void SaveRange(List<Quiz> quizes);
 }
