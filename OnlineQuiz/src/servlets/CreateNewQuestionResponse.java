@@ -8,23 +8,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Models.Quiz;
+import Models.Question;
 import Repository.UnitOfWork;
 
 /**
- * Servlet implementation class CreateNewQuiz
+ * Servlet implementation class CreateNewQuestionResponse
  */
-@WebServlet("/CreateNewQuiz")
-public class CreateNewQuiz extends HttpServlet {
+@WebServlet("/CreateNewQuestionResponse")
+public class CreateNewQuestionResponse extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CreateNewQuiz() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public CreateNewQuestionResponse() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -39,7 +39,7 @@ public class CreateNewQuiz extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UnitOfWork uwork = new UnitOfWork();		
-		
+
 		String username = "";
 		String loginToken = "";
 		Cookie cookie = null;
@@ -54,16 +54,18 @@ public class CreateNewQuiz extends HttpServlet {
 					loginToken = cookie.getValue();
 			}
 		}
-		
-		String name = request.getParameter("name");
-		
-		Quiz quiz = new Quiz();
-		quiz.SetName(name);
-		quiz.SetAuthor(uwork.GetUsers().Get(username));
-		
-		int id = uwork.GetQuizes().Save(quiz);
-		
-		response.sendRedirect("EditQuiz.jsp?id="+id);
+
+		String name = request.getParameter("question");
+		String quizID = request.getParameter("quizID");
+
+		Question question = new Question();
+		question.SetQuestion(name);
+		question.SetQuestionType(0);
+		question.SetQuiz(uwork.GetQuizes().Get(Integer.parseInt(quizID)));
+
+		int id = uwork.GetQuestions().Save(question);
+
+		response.sendRedirect("EditQuestionResponse.jsp?id="+id);
 	}
 
 }
