@@ -320,39 +320,42 @@
 
 
 
-
-
-
-
 				<%@ page import="Repository.UnitOfWork"%>
 				<%@ page import="Models.*"%>
 				<%@ page import="java.util.List"%>
-				<%!int quizID = -1;
-					Quiz quiz;
-					private UnitOfWork uwork = new UnitOfWork();
-					private List<Question> questions;%>
+				<%!int quistionID = -1;
+	UnitOfWork uwork = new UnitOfWork();
+	List<Answer> answers;%>
 				<%
-					int quizID = Integer.parseInt(request.getParameter("id"));
-					questions = uwork.GetQuestions().GetAll(quizID);
-					quiz = uwork.GetQuizes().Get(quizID);
+					quistionID = Integer.parseInt(request.getParameter("id"));
+					Question question = uwork.GetQuestions().Get(quistionID);
+
+					answers = uwork.GetAnswers().GetAll(question);
 				%>
+
 
 				<div class="col-lg-12">
 					<section class="panel">
-						<header class="panel-heading"> Edit Quiz </header>
+						<header class="panel-heading"> Edit Question </header>
 						<div class="panel-body">
 							<form class="form-horizontal " method="get">
 								<div class="form-group">
-									<label class="col-sm-2 control-label">Quiz Name</label>
+									<label class="col-sm-2 control-label">Question</label>
 									<div class="col-sm-10">
-										<input type="text" id="name" value="<%=quiz.GetName()%>"
-											placeholder="name" name="name" class="form-control">
+										<input type="text" id="question" placeholder="Question"
+											name="question" value="<%=question.GetQuestion()%>"
+											class="form-control">
 									</div>
-
 								</div>
 								<div class="form-group">
 									<div class="col-sm-10">
 										<button type="submit" class="btn btn-primary">Save</button>
+										<a href="CreateQuestionResponseAnswer.jsp"
+											class="btn btn-primary">Add Correct Answer</a>
+											<a href="CreateQuestionResponse.jsp?quizID=<%= question.GetQuiz().GetID() %>"
+											class="btn btn-primary">Add New Question</a>
+											<a href="EditQuiz.jsp?id=<%= question.GetQuiz().GetID() %>"
+											class="btn btn-primary">Finish</a>
 									</div>
 								</div>
 							</form>
@@ -363,63 +366,31 @@
 
 
 
-				<div class="col-lg-12">
-					<section class="panel">
-						<header class="panel-heading"> Add New Question </header>
-						<div class="panel-body">
-							<form class="form-horizontal " method="get">
-
-								<div class="form-group">
-									<div class="col-sm-10">
-										<a href="CreateQuestionResponse.jsp?quizID=<%= quizID %>" class="btn btn-primary">Add
-											Question-Response</a> <a href="CreateMultipleChoice.jsp"
-											class="btn btn-primary">Add Multiple Choice</a> <a
-											href="CreateImage" class="btn btn-primary">Type 1</a> <a
-											href="#" class="btn btn-primary">Type 1</a> <a href="#"
-											class="btn btn-primary">Type 1</a> <a href="#"
-											class="btn btn-primary">Type 1</a> <a href="#"
-											class="btn btn-primary">Type 1</a>
-									</div>
-								</div>
-							</form>
-						</div>
-					</section>
-
-				</div>
-
-
 
 				<div class="col-lg-12">
 					<section class="panel">
-						<header class="panel-heading"> Questions </header>
+						<header class="panel-heading"> Answers </header>
 						<div class="table-responsive">
 							<table class="table">
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>Question</th>
-										<th>Type</th>
+										<th>Answer</th>
 										<th>Edit/Delete</th>
 									</tr>
 								</thead>
 								<tbody>
 									<%
-										for (Question question : questions) {
+										for (Answer anwser : answers) {
 									%>
 									<tr>
-										<td><%=question.GetID()%></td>
-										<td><%=question.GetQuestion()%></td>
+										<td>1</td>
+										<td><%=anwser.GetID()%></td>
 
-										<td><%=question.GetQuestionType()%></td>
+										<td><%=anwser.GetAnswer()%></td>
 										<td><div class="btn-group">
-										<% 
-										String lnk = "";
-										if(question.GetQuestionType() == Question.type.QuestionResponse)
-											lnk = "EditQuestionResponse.jsp?id=" + question.GetID();
-										%>
-												<a class="btn btn-primary" href="<%= lnk %>">Edit</a> 
-												
-												<a class="btn btn-danger" href="#">Delete</a>
+												<a class="btn btn-primary" href="#">Edit</a> <a
+													class="btn btn-danger" href="#">Delete</a>
 											</div></td>
 									</tr>
 									<%
@@ -433,6 +404,7 @@
 
 					</section>
 				</div>
+
 
 
 
@@ -533,4 +505,3 @@
 	</script>
 
 </body>
-</html>

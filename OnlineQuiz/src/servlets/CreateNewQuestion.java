@@ -8,20 +8,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Models.Question;
 import Models.Quiz;
 import Repository.UnitOfWork;
 
 /**
- * Servlet implementation class CreateNewQuiz
+ * Servlet implementation class CreateNewQuestion
  */
-@WebServlet("/CreateNewQuiz")
-public class CreateNewQuiz extends HttpServlet {
+@WebServlet("/CreateNewQuestion")
+public class CreateNewQuestion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateNewQuiz() {
+    public CreateNewQuestion() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -55,15 +56,17 @@ public class CreateNewQuiz extends HttpServlet {
 			}
 		}
 		
-		String name = request.getParameter("name");
+		String name = request.getParameter("question");
+		String quizID = request.getParameter("quizID");
 		
-		Quiz quiz = new Quiz();
-		quiz.SetName(name);
-		quiz.SetAuthor(uwork.GetUsers().Get(username));
+		Question question = new Question();
+		question.SetQuestion(name);
+		question.SetQuestionType(1);
+		question.SetQuiz(uwork.GetQuizes().Get(Integer.parseInt(quizID)));
 		
-		int id = uwork.GetQuizes().Save(quiz);
+		int id = uwork.GetQuestions().Save(question);
 		
-		response.sendRedirect("EditQuiz.jsp?id="+id);
+		response.sendRedirect("EditNewQuestionResponse.jsp?id="+id);
 	}
 
 }

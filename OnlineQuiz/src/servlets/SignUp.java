@@ -57,7 +57,7 @@ public class SignUp extends HttpServlet {
 		
 		UserRepository userRepo = new UserRepository();
 		
-		if(userRepo.Get(username)==null || !password.equals(confirmPassword) || password.isEmpty()){
+		if(userRepo.Get(username)!=null || !password.equals(confirmPassword) || password.isEmpty()){
 			response.sendRedirect("Register.jsp");
 			return;
 		}
