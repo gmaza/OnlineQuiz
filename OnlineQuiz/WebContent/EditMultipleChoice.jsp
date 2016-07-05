@@ -320,44 +320,90 @@
 
 
 
-
-
-	<%@ page import="Repository.UnitOfWork"%>
+				<%@ page import="Repository.UnitOfWork"%>
 				<%@ page import="Models.*"%>
 				<%@ page import="java.util.List"%>
-				<%!int questionID = -1;
-	private UnitOfWork uwork = new UnitOfWork();
-	%>
+				<%!int quistionID = -1;
+	UnitOfWork uwork = new UnitOfWork();
+	List<Answer> answers;%>
+				<%
+					quistionID = Integer.parseInt(request.getParameter("id"));
+					Question question = uwork.GetQuestions().Get(quistionID);
 
-<%questionID = Integer.parseInt(request.getParameter("questionID")); %>
-
+					answers = uwork.GetAnswers().GetAll(question);
+				%>
 
 
 				<div class="col-lg-12">
 					<section class="panel">
-						<header class="panel-heading"> Add New Question Response Answer </header>
+						<header class="panel-heading"> Edit Question </header>
 						<div class="panel-body">
-							<form class="form-horizontal" action="CreateNewAnswer" method="post">
+							<form class="form-horizontal " method="get">
 								<div class="form-group">
-									<label class="col-sm-2 control-label">Answer</label>
+									<label class="col-sm-2 control-label">Question</label>
 									<div class="col-sm-10">
-									<input type="hidden" name="questionID" value="<%= questionID %>">
-										<input type="text" id="answer" placeholder="answer" name="answer" class="form-control">
+										<input type="text" id="question" placeholder="Question"
+											name="question" value="<%=question.GetQuestion()%>"
+											class="form-control">
 									</div>
-									
 								</div>
 								<div class="form-group">
-								<div class="col-sm-10">
-									<button type="submit" class="btn btn-primary">Save</button>
+									<div class="col-sm-10">
+										<button type="submit" class="btn btn-primary">Save</button>
+										<a href="CreateMultipleChoiceAnswer.jsp?questionID=<%= question.GetID() %>"
+											class="btn btn-primary">Add Correct Answer</a>
+											<a href="CreateMultipleChoice.jsp?quizID=<%= question.GetQuiz().GetID() %>"
+											class="btn btn-primary">Add New Question</a>
+											<a href="EditQuiz.jsp?id=<%= question.GetQuiz().GetID() %>"
+											class="btn btn-primary">Finish</a>
 									</div>
 								</div>
 							</form>
 						</div>
 					</section>
+
 				</div>
 
 
 
+
+				<div class="col-lg-12">
+					<section class="panel">
+						<header class="panel-heading"> Answers </header>
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Answer</th>
+										<th>Edit/Delete</th>
+									</tr>
+								</thead>
+								<tbody>
+									<%
+										for (Answer anwser : answers) {
+									%>
+									<tr>
+										<td>1</td>
+										<td><%=anwser.GetID()%></td>
+
+										<td><%=anwser.GetAnswer()%></td>
+										<td><div class="btn-group">
+												<a class="btn btn-danger" href="DeleteAnswer?id=<%= anwser.GetID() %>&questionID=<%= question.GetID() %>"> Delete </a>
+											</div>
+											</td>
+									</tr>
+									<%
+										}
+									%>
+
+
+								</tbody>
+							</table>
+						</div>
+
+					</section>
+				</div>
 
 
 
@@ -413,54 +459,49 @@
 	<script src="js/charts.js"></script>
 	<script src="js/jquery.slimscroll.min.js"></script>
 	<script>
+		//knob
+		$(function() {
+			$(".knob").knob({
+				'draw' : function() {
+					$(this.i).val(this.cv + '%')
+				}
+			})
+		});
 
-      //knob
-      $(function() {
-        $(".knob").knob({
-          'draw' : function () { 
-            $(this.i).val(this.cv + '%')
-          }
-        })
-      });
+		//carousel
+		$(document).ready(function() {
+			$("#owl-slider").owlCarousel({
+				navigation : true,
+				slideSpeed : 300,
+				paginationSpeed : 400,
+				singleItem : true
 
-      //carousel
-      $(document).ready(function() {
-          $("#owl-slider").owlCarousel({
-              navigation : true,
-              slideSpeed : 300,
-              paginationSpeed : 400,
-              singleItem : true
+			});
+		});
 
-          });
-      });
+		//custom select box
 
-      //custom select box
+		$(function() {
+			$('select.styled').customSelect();
+		});
 
-      $(function(){
-          $('select.styled').customSelect();
-      });
-	  
-	  /* ---------- Map ---------- */
-	$(function(){
-	  $('#map').vectorMap({
-	    map: 'world_mill_en',
-	    series: {
-	      regions: [{
-	        values: gdpData,
-	        scale: ['#000', '#000'],
-	        normalizeFunction: 'polynomial'
-	      }]
-	    },
-		backgroundColor: '#eef3f7',
-	    onLabelShow: function(e, el, code){
-	      el.html(el.html()+' (GDP - '+gdpData[code]+')');
-	    }
-	  });
-	});
-
-
-
-  </script>
+		/* ---------- Map ---------- */
+		$(function() {
+			$('#map').vectorMap({
+				map : 'world_mill_en',
+				series : {
+					regions : [ {
+						values : gdpData,
+						scale : [ '#000', '#000' ],
+						normalizeFunction : 'polynomial'
+					} ]
+				},
+				backgroundColor : '#eef3f7',
+				onLabelShow : function(e, el, code) {
+					el.html(el.html() + ' (GDP - ' + gdpData[code] + ')');
+				}
+			});
+		});
+	</script>
 
 </body>
-</html>

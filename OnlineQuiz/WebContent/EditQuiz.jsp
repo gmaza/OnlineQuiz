@@ -419,7 +419,7 @@
 										%>
 												<a class="btn btn-primary" href="<%= lnk %>">Edit</a> 
 												
-												<a class="btn btn-danger" href="#">Delete</a>
+												<a class="btn btn-danger" href="DeleteQuestion?id=<%= question.GetID() %>&quizID=<%= quiz.GetID() %>">Delete</a>
 											</div></td>
 									</tr>
 									<%

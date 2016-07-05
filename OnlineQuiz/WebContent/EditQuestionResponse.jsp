@@ -350,7 +350,7 @@
 								<div class="form-group">
 									<div class="col-sm-10">
 										<button type="submit" class="btn btn-primary">Save</button>
-										<a href="CreateQuestionResponseAnswer.jsp"
+										<a href="CreateQuestionResponseAnswer.jsp?questionID=<%= question.GetID() %>"
 											class="btn btn-primary">Add Correct Answer</a>
 											<a href="CreateQuestionResponse.jsp?quizID=<%= question.GetQuiz().GetID() %>"
 											class="btn btn-primary">Add New Question</a>
@@ -389,9 +389,9 @@
 
 										<td><%=anwser.GetAnswer()%></td>
 										<td><div class="btn-group">
-												<a class="btn btn-primary" href="#">Edit</a> <a
-													class="btn btn-danger" href="#">Delete</a>
-											</div></td>
+												<a class="btn btn-danger" href="DeleteAnswer?id=<%= anwser.GetID() %>&questionID=<%= question.GetID() %>"> Delete </a>
+											</div>
+											</td>
 									</tr>
 									<%
 										}

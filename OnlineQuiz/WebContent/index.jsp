@@ -341,12 +341,12 @@
 					}
 
 					if (cookies == null || username.isEmpty() || loginToken.isEmpty()){
-				//		response.sendRedirect("Login.jsp");
+						response.sendRedirect("Login.jsp");
 					}
 					else{
 						User user = uwork.GetUsers().Get(username);
 						if(user == null || !user.GetLoginToken().equals(loginToken)){
-						//	response.sendRedirect("Login.jsp");
+							response.sendRedirect("Login.jsp");
 						}
 					}					
 				%>
