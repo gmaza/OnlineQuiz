@@ -12,5 +12,5 @@ public interface IResultRepository {
 	public List<Result> GetAllByUser(int userID);
 	
 	public boolean Update(Result result);
-	public void Save(Result result);
+	public int Save(Result result);
 }
