@@ -10,6 +10,7 @@ import java.util.List;
 import Database.DatabaseHelper;
 import Interfaces.IResultRepository;
 import Models.Answer;
+import Models.AnswerResult;
 import Models.Result;
 
 public class ResultRepository implements IResultRepository {
@@ -69,7 +70,7 @@ public class ResultRepository implements IResultRepository {
 	@Override
 	public List<Result> GetAll(int quizID, int userID) {
 		String query = "Select * from results where QuizID = " + quizID + 
-				"AND UserID = " + userID;
+				" AND UserID = " + userID;
 		ResultSet rs = helper.ExcecuteSelect(query);
 		return GetAllHelper(rs);
 	}
@@ -87,6 +88,85 @@ public class ResultRepository implements IResultRepository {
 		ResultSet rs = helper.ExcecuteSelect(query);
 		return GetAllHelper(rs);
 	}
+	
+	private AnswerResult GetAnswerResultHelper(ResultSet rs){
+		AnswerResult answerResult = null;	
+		try {
+			if (rs.next()){
+				answerResult = new AnswerResult();
+				answerResult.SetID(rs.getInt("ID"));
+				ResultRepository repo = new ResultRepository();
+				answerResult.SetResult(repo.Get(rs.getInt("ResultID")));
+				if (rs.getInt("AnswerID")!=0) {
+					AnswerRepositor ansrepo = new AnswerRepositor();
+					answerResult.SetAnswer(ansrepo.Get(rs.getInt("AnswerID")));
+					answerResult.SetText(null);
+				} else {
+					answerResult.SetAnswer(null);
+					answerResult.SetText(rs.getString("Text"));
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return answerResult;
+	}
+	
+	@Override
+	public AnswerResult GetAnswerResult(int id){
+		String query = "Select * from answerresults where ID = " + id;
+		ResultSet rs = helper.ExcecuteSelect(query);
+		return GetAnswerResultHelper(rs);
+	}
+	
+	@Override
+	public AnswerResult GetAnswerResult(int resultID, int answerID){
+		String query = "Select * from answerresults where ResultID = " + resultID +
+				" AND AnswerID = " + answerID;
+		ResultSet rs = helper.ExcecuteSelect(query);
+		return GetAnswerResultHelper(rs);
+	}
+	
+	private List<AnswerResult> GetAllAnswerResultByResultHelper(ResultSet rs){
+		List<AnswerResult> answerResultList = new ArrayList<AnswerResult>();
+		try {
+			while (rs.next()) {
+				AnswerResult answerResult = new AnswerResult();
+				answerResult.SetID(rs.getInt("ID"));
+				ResultRepository repo = new ResultRepository();
+				answerResult.SetResult(repo.Get(rs.getInt("ResultID")));
+				if (rs.getInt("AnswerID")!=0) {
+					AnswerRepositor ansrepo = new AnswerRepositor();
+					answerResult.SetAnswer(ansrepo.Get(rs.getInt("AnswerID")));
+					answerResult.SetText(null);
+				} else {
+					answerResult.SetAnswer(null);
+					answerResult.SetText(rs.getString("Text"));
+				}
+				answerResultList.add(answerResult);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return answerResultList;
+	}
+	
+	@Override
+	public List<AnswerResult> GetAllAnswerResultByResult(int resultID){
+		String query = "Select * from answerresults where ResultID = " + resultID;
+		ResultSet rs = helper.ExcecuteSelect(query);
+		return GetAllAnswerResultByResultHelper(rs);
+	}
+	
+	@Override
+	public List<AnswerResult> GetAllAnswerResultByResult(Result result){
+		String query = "Select * from answerresults where ResultID = " + result.GetID();
+		ResultSet rs = helper.ExcecuteSelect(query);
+		return GetAllAnswerResultByResultHelper(rs);
+	}
+	
 
 	@Override
 	public boolean Update(Result result) {
@@ -113,6 +193,18 @@ public class ResultRepository implements IResultRepository {
 		mp.put("EndDate","'" +edate+"'");
 		mp.put("Score", "" + result.GetScore());
 		return helper.Insert("results", mp);
+	}
+	
+	@Override
+	public int SaveAnswerResult(AnswerResult answerResult){
+		HashMap<String,String> mp = new HashMap<String,String>();
+		mp.put("ResultID","" + answerResult.GetResult().GetID());
+		if (answerResult.GetAnswer()!= null) {
+			mp.put("AnswerID","" + answerResult.GetAnswer().GetID());
+		} else {
+			mp.put("Text", "'" + answerResult.GetText() +"'");
+		}
+		return helper.Insert("answerresults", mp);
 	}
 
 }
