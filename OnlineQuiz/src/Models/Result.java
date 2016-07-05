@@ -7,8 +7,8 @@ public class Result {
 	private int id;
 	private User user;
 	private Quiz quiz;
-	private Date date;
-	private Duration time;
+	private Date startDate;
+	private Date endDate;
 	private int score;
 	
 	public int GetID(){
@@ -29,17 +29,17 @@ public class Result {
 	public void SetQuiz(Quiz quiz){
 		this.quiz = quiz;
 	}
-	public Date GetDate(){
-		return date;
+	public Date GetStartDate(){
+		return startDate;
 	}
-	public void SetDate(Date date){
-		this.date = date;
+	public void SetStartDate(Date startDate){
+		this.startDate = startDate;
 	}
-	public Duration GetTime(){
-		return time;
+	public Date GetEndDate(){
+		return endDate;
 	}
-	public void SetTime(Duration time){
-		this.time = time;
+	public void SetEndDate(Date endDate){
+		this.endDate = endDate;
 	}
 	public int GetScore(){
 		return score;
