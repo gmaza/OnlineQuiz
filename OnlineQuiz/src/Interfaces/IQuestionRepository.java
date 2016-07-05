@@ -12,6 +12,8 @@ public interface IQuestionRepository {
 	public List<Question> GetAll(int quizID);
 	public List<Question> GetAll(Quiz quiz);
 	
+	public Question GetNextQuestion(int questionID);
+	
 	public boolean Delete(int id);
 	
 	public boolean Update(Question question);

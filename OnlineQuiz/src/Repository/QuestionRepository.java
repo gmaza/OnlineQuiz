@@ -19,10 +19,7 @@ public class QuestionRepository implements IQuestionRepository {
 		helper = new DatabaseHelper();
 	}
 
-	@Override
-	public Question Get(int id) {
-		String query = "Select * from questions where ID = " + id;
-		ResultSet rs = helper.ExcecuteSelect(query);
+	private Question GetHelper(ResultSet rs){
 		Question question = null;
 		try {
 			if (rs.next()) {
@@ -38,6 +35,13 @@ public class QuestionRepository implements IQuestionRepository {
 			e.printStackTrace();
 		}
 		return question;
+	}
+	
+	@Override
+	public Question Get(int id) {
+		String query = "Select * from questions where ID = " + id;
+		ResultSet rs = helper.ExcecuteSelect(query);
+		return GetHelper(rs);
 	}
 
 	private List<Question> GetAllHelper(ResultSet rs){
@@ -81,7 +85,13 @@ public class QuestionRepository implements IQuestionRepository {
 		ResultSet rs = helper.ExcecuteSelect(query);
 		return GetAllHelper(rs);
 	}
-
+	public Question GetNextQuestion(int questionID){
+		String query = "Select * from questions where QuizID = " + Get(questionID).GetQuiz().GetID() +
+				" AND ID> " + questionID + " order by ID limit 1";
+		ResultSet rs = helper.ExcecuteSelect(query);
+		return GetHelper(rs);
+	}
+	
 	@Override
 	public boolean Delete(int id) {
 		HashMap<String,String> mp = new HashMap<String,String>();
