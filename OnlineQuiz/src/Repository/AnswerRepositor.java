@@ -68,7 +68,7 @@ public class AnswerRepositor implements IAnswerRepository {
 
 	@Override
 	public List<Answer> GetAll(int questionID) {
-		String query = "Select * from answers where ID = " + questionID;
+		String query = "Select * from answers where QuestionID = " + questionID;
 		ResultSet rs = helper.ExcecuteSelect(query);
 		return GetAllHelper(rs);
 	}
