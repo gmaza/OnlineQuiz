@@ -1,5 +1,7 @@
 package Models;
 
+import Repository.QuestionRepository;
+
 public class Question {
 
 	public enum type {
@@ -38,5 +40,9 @@ public class Question {
 	}
 	public void SetQuestionType(int ind){
 		this.questionType = type.values()[ind];
+	}
+	public boolean IsLast(){
+		QuestionRepository repo = new QuestionRepository();
+		return (repo.GetNextQuestion(id)==null);
 	}
 }
