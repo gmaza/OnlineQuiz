@@ -36,7 +36,7 @@ public class DatabaseHelper {
 		int returnID = -1;
 		try{
 			PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			stmt.execute("USE onlinequizdb");
+			stmt.execute("USE onlinequizdb;");
 			//		stmt.execute("USE " + "onlinequizdb");
 
 			//bo = stmt.execute();
@@ -65,7 +65,8 @@ public class DatabaseHelper {
 			ResultSet rs = null;
 			try{
 				PreparedStatement stmt = con.prepareStatement(query);
-				stmt.execute("USE onlinequizdb");
+				stmt.execute("USE onlinequizdb;");
+				stmt.execute("RESET QUERY CACHE;;");
 				//		stmt.execute("USE " + "onlinequizdb");
 
 				rs = stmt.executeQuery(query);
