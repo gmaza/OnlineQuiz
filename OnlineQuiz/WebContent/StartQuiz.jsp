@@ -335,7 +335,9 @@
 					question = uwork.GetQuestions().Get(questionID);
 				%>
 
-<%if(question.GetQuestionType()==Question.type.QuestionResponse) { %>
+				<%
+					if (question.GetQuestionType() == Question.type.QuestionResponse) {
+				%>
 
 				<div class="col-lg-12">
 					<section class="panel">
@@ -354,8 +356,8 @@
 									%>
 
 									<input type="hidden" name="typ" value="0" /> <input
-										type="hidden" name="questionID" value="<%=questionID%>" />
-									<input type="hidden" name="id" value="<%=id%>" />
+										type="hidden" name="questionID" value="<%=questionID%>" /> <input
+										type="hidden" name="id" value="<%=id%>" />
 
 									<div class="form-group">
 										<label class="col-sm-2 control-label"><%=question.GetQuestion()%></label>
@@ -387,9 +389,11 @@
 					</section>
 				</div>
 
-<%} else if (question.GetQuestionType()==Question.type.PictureResponse) { %>
+				<%
+					} else if (question.GetQuestionType() == Question.type.PictureResponse) {
+				%>
 
-			<div class="col-lg-12">
+				<div class="col-lg-12">
 					<section class="panel">
 						<header class="panel-heading"> Please, Answer </header>
 						<div class="panel-body">
@@ -406,11 +410,12 @@
 									%>
 
 									<input type="hidden" name="typ" value="0" /> <input
-										type="hidden" name="questionID" value="<%=questionID%>" />
-									<input type="hidden" name="id" value="<%=id%>" />
+										type="hidden" name="questionID" value="<%=questionID%>" /> <input
+										type="hidden" name="id" value="<%=id%>" />
 
 									<div class="form-group">
-										<img src="<%=question.GetQuestion()%>" height="400" width="400"/>
+										<img src="<%=question.GetQuestion()%>" height="400"
+											width="400" />
 									</div>
 									<div class="form-group">
 										<div style="marging-left: 80px" class="col-sm-10">
@@ -439,7 +444,67 @@
 					</section>
 				</div>
 
-<%} %>
+				<%
+					} else if (question.GetQuestionType() == Question.type.MultipleChoice) {
+				%>
+				<div class="col-lg-12">
+					<section class="panel">
+						<header class="panel-heading"> Please, Answer </header>
+						<div class="panel-body">
+							<%
+								if (question.IsLast()) {
+							%>
+							<form class="form-horizontal" action="FinishQuiz" method="post">
+								<%
+									} else {
+								%>
+								<form class="form-horizontal" action="SaveAnswer" method="post">
+									<%
+										}
+									%>
+
+									<input type="hidden" name="typ" value="0" /> <input
+										type="hidden" name="questionID" value="<%=questionID%>" /> <input
+										type="hidden" name="id" value="<%=id%>" />
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label"><%=question.GetQuestion()%></label>
+									</div>
+									<div class="form-group">
+										<div style="marging-left: 80px" class="col-sm-10">
+											<%
+												List<Answer> answers = uwork.GetAnswers().GetAll(questionID);
+													for (Answer ans : answers) {
+											%>
+											<input type="radio" name="answer" value="<%= ans.GetID() %>"> <%= ans.GetAnswer() %><br>
+											<%
+ 	}
+ %>
+										</div>
+
+									</div>
+									<div class="form-group">
+										<div class="col-sm-10">
+											<%
+												if (question.IsLast()) {
+											%>
+											<button type="submit" class="btn btn-primary">Finish</button>
+											<%
+												} else {
+											%>
+											<button type="submit" class="btn btn-primary">Next</button>
+											<%
+												}
+											%>
+										</div>
+									</div>
+								</form>
+						</div>
+					</section>
+				</div>
+				<%
+					}
+				%>
 
 
 

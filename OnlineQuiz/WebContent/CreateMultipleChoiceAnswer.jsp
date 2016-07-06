@@ -319,7 +319,14 @@
 			<section class="wrapper">
 
 
+	<%@ page import="Repository.UnitOfWork"%>
+				<%@ page import="Models.*"%>
+				<%@ page import="java.util.List"%>
+				<%!int questionID = -1;
+	private UnitOfWork uwork = new UnitOfWork();
+	%>
 
+<%questionID = Integer.parseInt(request.getParameter("questionID")); %>
 
 
 
@@ -330,7 +337,8 @@
 					<section class="panel">
 						<header class="panel-heading"> Add New Answer </header>
 						<div class="panel-body">
-							<form class="form-horizontal" action="CreateNewQuiz" method="post">
+							<form class="form-horizontal" action="CreateNewAnswer" method="post">
+							<input type="hidden" name="questionID" value="<%= questionID %>">
 								<div class="form-group">
 									<label class="col-sm-2 control-label">Answer</label>
 									<div class="col-sm-10">
