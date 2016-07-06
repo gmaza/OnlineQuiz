@@ -68,6 +68,7 @@ public class FinishQuiz extends HttpServlet {
 			AnswerResult resAnswer = new AnswerResult();
 			resAnswer.SetText(answerString);
 			resAnswer.SetResult(uwork.GetResults().Get(resultID));
+			uwork.GetResults().SaveAnswerResult(resAnswer);
 			result.SetEndDate(new Date());
 			uwork.GetResults().Update(result);
 			long resultDur = ((result.GetEndDate().getTime()/60000) - (result.GetStartDate().getTime()/60000));

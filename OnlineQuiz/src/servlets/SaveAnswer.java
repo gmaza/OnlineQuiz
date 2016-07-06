@@ -70,7 +70,7 @@ public class SaveAnswer extends HttpServlet {
 			AnswerResult resAnswer = new AnswerResult();
 			resAnswer.SetText(answerString);
 			resAnswer.SetResult(uwork.GetResults().Get(resultID));
-						
+			uwork.GetResults().SaveAnswerResult(resAnswer);
 			response.sendRedirect("StartQuiz.jsp?id=" + resultID +"&questionID="+ uwork.GetQuestions().GetNextQuestion(questionID).GetID());
 		}
 
