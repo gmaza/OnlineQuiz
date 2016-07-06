@@ -52,7 +52,7 @@ public class FinishQuiz extends HttpServlet {
 		int questionID = Integer.parseInt(request.getParameter("questionID"));
 		int resultID = Integer.parseInt(request.getParameter("id"));
 		switch (typ){
-		case 0:
+		case 0:{
 			String answerString = request.getParameter("answer");
 			Result result = uwork.GetResults().Get(resultID);
 			
@@ -73,6 +73,28 @@ public class FinishQuiz extends HttpServlet {
 			uwork.GetResults().Update(result);
 			long resultDur = ((result.GetEndDate().getTime()/60000) - (result.GetStartDate().getTime()/60000));
 			response.sendRedirect("Result.jsp?score=" + result.GetScore() + "&duration=" + resultDur);
+		}
+		case 1:{
+			String answerString = request.getParameter("answer");
+			Result result = uwork.GetResults().Get(resultID);
+			boolean isCorrect = false;
+
+			Answer correctAnswers = uwork.GetAnswers().Get(Integer.parseInt(answerString));
+			isCorrect = !correctAnswers.GetAnswerType();
+			if(isCorrect){
+				
+				result.SetScore(result.GetScore() + 1);
+				uwork.GetResults().Update(result);
+			}
+			AnswerResult resAnswer = new AnswerResult();
+			resAnswer.SetText(answerString);
+			resAnswer.SetResult(uwork.GetResults().Get(resultID));
+			uwork.GetResults().SaveAnswerResult(resAnswer);
+			result.SetEndDate(new Date());
+			uwork.GetResults().Update(result);
+			long resultDur = ((result.GetEndDate().getTime()/60000) - (result.GetStartDate().getTime()/60000));
+			response.sendRedirect("Result.jsp?score=" + result.GetScore() + "&duration=" + resultDur);
+		}
 		}
 	}
 

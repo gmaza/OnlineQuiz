@@ -463,7 +463,7 @@
 										}
 									%>
 
-									<input type="hidden" name="typ" value="0" /> <input
+									<input type="hidden" name="typ" value="1" /> <input
 										type="hidden" name="questionID" value="<%=questionID%>" /> <input
 										type="hidden" name="id" value="<%=id%>" />
 

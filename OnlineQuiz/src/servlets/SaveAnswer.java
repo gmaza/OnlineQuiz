@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.omg.CORBA.INTERNAL;
+
 import Models.Answer;
 import Models.AnswerResult;
 import Models.Question;
@@ -48,16 +50,16 @@ public class SaveAnswer extends HttpServlet {
 		ServletConfig sg=getServletConfig();
 		ServletContext sc= sg.getServletContext();
 		UnitOfWork uwork = (UnitOfWork)sc.getAttribute("uwork");
-		
+
 		int typ = Integer.parseInt(request.getParameter("typ"));
 		int questionID = Integer.parseInt(request.getParameter("questionID"));
 		int resultID = Integer.parseInt(request.getParameter("id"));
 		switch (typ){
-		case 0:
+		case 0:{
 			String answerString = request.getParameter("answer");
-			
+
 			boolean isCorrect = false;
-			
+
 			List<Answer> correctAnswers = uwork.GetAnswers().GetAll(questionID);
 			for(Answer correctAnswer : correctAnswers){
 				isCorrect = isCorrect || correctAnswer.GetAnswer().equals(answerString);
@@ -72,6 +74,26 @@ public class SaveAnswer extends HttpServlet {
 			resAnswer.SetResult(uwork.GetResults().Get(resultID));
 			uwork.GetResults().SaveAnswerResult(resAnswer);
 			response.sendRedirect("StartQuiz.jsp?id=" + resultID +"&questionID="+ uwork.GetQuestions().GetNextQuestion(questionID).GetID());
+			break;
+		}
+		case 1:{
+			String answerString = request.getParameter("answer");
+
+			boolean isCorrect = false;
+
+			Answer correctAnswers = uwork.GetAnswers().Get(Integer.parseInt(answerString));
+			isCorrect = correctAnswers.GetAnswerType();
+			if(isCorrect){
+				Result result = uwork.GetResults().Get(resultID);
+				result.SetScore(result.GetScore() + 1);
+				uwork.GetResults().Update(result);
+			}
+			AnswerResult resAnswer = new AnswerResult();
+			resAnswer.SetText(answerString);
+			resAnswer.SetResult(uwork.GetResults().Get(resultID));
+			uwork.GetResults().SaveAnswerResult(resAnswer);
+			response.sendRedirect("StartQuiz.jsp?id=" + resultID +"&questionID="+ uwork.GetQuestions().GetNextQuestion(questionID).GetID());
+		}
 		}
 
 	}
