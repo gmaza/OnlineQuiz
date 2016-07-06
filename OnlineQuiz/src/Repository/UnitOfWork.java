@@ -1,16 +1,18 @@
 package Repository;
 
+import Database.DatabaseHelper;
 import Interfaces.*;
 import sun.reflect.generics.repository.AbstractRepository;
 
 public class UnitOfWork {
 	public UnitOfWork(){
-		_answers = new AnswerRepositor();
+		DatabaseHelper helper = new DatabaseHelper();
+		_answers = new AnswerRepositor(helper);
 		_messages =new MessageRepository();
-		_questions=new QuestionRepository();
-		_quizes=new QuizRepository();
-		_results=new ResultRepository();
-		_users=new UserRepository();
+		_questions=new QuestionRepository(helper);
+		_quizes=new QuizRepository(helper);
+		_results=new ResultRepository(helper);
+		_users=new UserRepository(helper);
 	}
 	
 	public IAnswerRepository GetAnswers(){

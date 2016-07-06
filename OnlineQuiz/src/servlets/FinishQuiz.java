@@ -1,7 +1,7 @@
 package servlets;
 
-
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
@@ -14,21 +14,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import Models.Answer;
 import Models.AnswerResult;
-import Models.Question;
+import Models.Quiz;
 import Models.Result;
 import Repository.UnitOfWork;
 
 /**
- * Servlet implementation class SaveAnswer
+ * Servlet implementation class FinishQuiz
  */
-@WebServlet("/SaveAnswer")
-public class SaveAnswer extends HttpServlet {
+@WebServlet("/FinishQuiz")
+public class FinishQuiz extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public SaveAnswer() {
+	public FinishQuiz() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -37,8 +37,7 @@ public class SaveAnswer extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 	}
 
 	/**
@@ -55,6 +54,7 @@ public class SaveAnswer extends HttpServlet {
 		switch (typ){
 		case 0:
 			String answerString = request.getParameter("answer");
+			Result result = uwork.GetResults().Get(resultID);
 			
 			boolean isCorrect = false;
 			
@@ -62,18 +62,17 @@ public class SaveAnswer extends HttpServlet {
 			for(Answer correctAnswer : correctAnswers){
 				isCorrect = isCorrect || correctAnswer.GetAnswer().equals(answerString);
 			}			
-			if(isCorrect){
-				Result result = uwork.GetResults().Get(resultID);
-				result.SetScore(result.GetScore() + 1);
-				uwork.GetResults().Update(result);
+			if(isCorrect){				
+				result.SetScore(result.GetScore() + 1);				
 			}
 			AnswerResult resAnswer = new AnswerResult();
 			resAnswer.SetText(answerString);
 			resAnswer.SetResult(uwork.GetResults().Get(resultID));
-						
-			response.sendRedirect("StartQuiz.jsp?id=" + resultID +"&questionID="+ uwork.GetQuestions().GetNextQuestion(questionID).GetID());
+			result.SetEndDate(new Date());
+			uwork.GetResults().Update(result);
+			long resultDur = ((result.GetEndDate().getTime()/60000) - (result.GetStartDate().getTime()/60000));
+			response.sendRedirect("Result.jsp?score=" + result.GetScore() + "&duration=" + resultDur);
 		}
-
 	}
 
 }

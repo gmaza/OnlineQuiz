@@ -17,8 +17,8 @@ public class ResultRepository implements IResultRepository {
 
 	DatabaseHelper helper;
 
-	public ResultRepository() {
-		helper = new DatabaseHelper();
+	public ResultRepository(DatabaseHelper helper) {
+		this.helper = helper;
 	}
 
 	@Override
@@ -30,9 +30,9 @@ public class ResultRepository implements IResultRepository {
 			if (rs.next()) {
 				result = new Result();
 				result.SetID(rs.getInt("ID"));
-				UserRepository userrepo = new UserRepository();
+				UserRepository userrepo = new UserRepository(helper);
 				result.SetUser(userrepo.Get(rs.getInt("UserID")));
-				QuizRepository quizrepo = new QuizRepository();
+				QuizRepository quizrepo = new QuizRepository(helper);
 				result.SetQuiz(quizrepo.Get(rs.getInt("QuizID")));
 				result.SetStartDate(rs.getDate("StartDate"));
 				result.SetEndDate(rs.getDate("EndDate"));
@@ -51,9 +51,9 @@ public class ResultRepository implements IResultRepository {
 			while (rs.next()){
 				Result result = new Result();
 				result.SetID(rs.getInt("ID"));
-				UserRepository userrepo = new UserRepository();
+				UserRepository userrepo = new UserRepository(helper);
 				result.SetUser(userrepo.Get(rs.getInt("UserID")));
-				QuizRepository quizrepo = new QuizRepository();
+				QuizRepository quizrepo = new QuizRepository(helper);
 				result.SetQuiz(quizrepo.Get(rs.getInt("QuizID")));
 				result.SetStartDate(rs.getDate("StartDate"));
 				result.SetEndDate(rs.getDate("EndDate"));
@@ -95,10 +95,10 @@ public class ResultRepository implements IResultRepository {
 			if (rs.next()){
 				answerResult = new AnswerResult();
 				answerResult.SetID(rs.getInt("ID"));
-				ResultRepository repo = new ResultRepository();
+				ResultRepository repo = new ResultRepository(helper);
 				answerResult.SetResult(repo.Get(rs.getInt("ResultID")));
 				if (rs.getInt("AnswerID")!=0) {
-					AnswerRepositor ansrepo = new AnswerRepositor();
+					AnswerRepositor ansrepo = new AnswerRepositor(helper);
 					answerResult.SetAnswer(ansrepo.Get(rs.getInt("AnswerID")));
 					answerResult.SetText(null);
 				} else {
@@ -134,10 +134,10 @@ public class ResultRepository implements IResultRepository {
 			while (rs.next()) {
 				AnswerResult answerResult = new AnswerResult();
 				answerResult.SetID(rs.getInt("ID"));
-				ResultRepository repo = new ResultRepository();
+				ResultRepository repo = new ResultRepository(helper);
 				answerResult.SetResult(repo.Get(rs.getInt("ResultID")));
 				if (rs.getInt("AnswerID")!=0) {
-					AnswerRepositor ansrepo = new AnswerRepositor();
+					AnswerRepositor ansrepo = new AnswerRepositor(helper);
 					answerResult.SetAnswer(ansrepo.Get(rs.getInt("AnswerID")));
 					answerResult.SetText(null);
 				} else {
@@ -171,12 +171,13 @@ public class ResultRepository implements IResultRepository {
 	@Override
 	public boolean Update(Result result) {
 		String sdate = new SimpleDateFormat("yyyy-MM-dd").format(result.GetStartDate());
-		String edate = new SimpleDateFormat("yyyy-MM-dd").format(result.GetEndDate());
+		String edate = result.GetEndDate()==null? "null" : new SimpleDateFormat("yyyy-MM-dd").format(result.GetEndDate());
 		HashMap<String,String> mp = new HashMap<String,String>();
 		mp.put("UserID","" +result.GetUser().GetID());
 		mp.put("QuizID","" +result.GetQuiz().GetID());
 		mp.put("StartDate","'" +sdate+"'");
-		mp.put("EndDate","'" +edate+"'");
+		if(!edate.equals("null"))
+			mp.put("EndDate","'" +edate+"'");
 		mp.put("Score", "" + result.GetScore());
 		helper.Update("results", mp, result.GetID());
 		return true;

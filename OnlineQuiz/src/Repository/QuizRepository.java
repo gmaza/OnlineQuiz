@@ -18,8 +18,8 @@ public class QuizRepository implements IQuizRepository {
 	
 	DatabaseHelper helper;
 	
-	public QuizRepository() {
-		helper = new DatabaseHelper();
+	public QuizRepository(DatabaseHelper helper) {
+		this.helper = helper;
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class QuizRepository implements IQuizRepository {
 		try {
 			if (rs.next()) {
 				quiz = new Quiz();
-				UserRepository repo = new UserRepository();
+				UserRepository repo = new UserRepository(helper);
 				quiz.SetID(rs.getInt("ID"));
 				quiz.SetName(rs.getString("QuizName"));
 				quiz.SetDate(rs.getDate("CreateDate"));
@@ -51,7 +51,7 @@ public class QuizRepository implements IQuizRepository {
 		try {
 			while (rs.next()){
 				Quiz quiz = new Quiz();
-				UserRepository repo = new UserRepository();
+				UserRepository repo = new UserRepository(helper);
 				quiz.SetID(rs.getInt("ID"));
 				quiz.SetName(rs.getString("QuizName"));
 				quiz.SetDate(rs.getDate("CreateDate"));
@@ -90,7 +90,7 @@ public class QuizRepository implements IQuizRepository {
 
 	@Override
 	public List<Quiz> GetAll(String username) {
-		UserRepository repo = new UserRepository();
+		UserRepository repo = new UserRepository(helper);
 		String query = "Select * from quizzes where Author = " + repo.Get(username).GetID();
 		ResultSet rs = helper.ExcecuteSelect(query);
 		return GetAllHelper(rs);

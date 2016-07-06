@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -39,7 +42,9 @@ public class CreateNewQuestion extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		UnitOfWork uwork = new UnitOfWork();		
+		ServletConfig sg=getServletConfig();
+		ServletContext sc= sg.getServletContext();
+		UnitOfWork uwork = (UnitOfWork)sc.getAttribute("uwork");		
 		
 		String username = "";
 		String loginToken = "";

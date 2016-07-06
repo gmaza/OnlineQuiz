@@ -3,6 +3,8 @@ package servlets;
 import java.io.IOException;
 import java.util.Date;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -55,7 +57,9 @@ public class StartQuiz extends HttpServlet {
 		}
 		String quizIdString = request.getParameter("quizID");		
 		
-		UnitOfWork uwork = new UnitOfWork();
+		ServletConfig sg=getServletConfig();
+		ServletContext sc= sg.getServletContext();
+		UnitOfWork uwork = (UnitOfWork)sc.getAttribute("uwork");
 		
 		Quiz quiz = uwork.GetQuizes().Get(Integer.parseInt(quizIdString));
 		
@@ -67,8 +71,8 @@ public class StartQuiz extends HttpServlet {
 		
 		int questionID = uwork.GetQuestions().GetAll(quiz.GetID()).get(0).GetID();
 		
-		uwork.GetResults().Save(result);
-		response.sendRedirect("StartQuiz.jsp?questionID="+questionID);
+		int id = uwork.GetResults().Save(result);
+		response.sendRedirect("StartQuiz.jsp?questionID="+questionID + "&id=" + id);
 	}
 
 }

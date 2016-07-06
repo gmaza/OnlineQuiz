@@ -386,7 +386,7 @@
 										<td>
 											<div class="btn-group">
 												<a class="btn btn-success"
-													href="/TakeQuiz/?quiz=<%=quiz.GetID()%>">Start</a>
+													href="StartQuiz?quizID=<%=quiz.GetID()%>">Start</a>
 											</div>
 										</td>
 									</tr>

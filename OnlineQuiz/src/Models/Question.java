@@ -1,9 +1,13 @@
 package Models;
 
+import Database.DatabaseHelper;
 import Repository.QuestionRepository;
 
 public class Question {
-
+	DatabaseHelper helper;
+	public Question(){
+		this.helper = new DatabaseHelper();
+	}
 	public enum type {
 		QuestionResponse, FillInTheBlank, MultipleChoice, 
 		PictureResponse, MultipleChoiceWithMultipleAnswers
@@ -42,7 +46,7 @@ public class Question {
 		this.questionType = type.values()[ind];
 	}
 	public boolean IsLast(){
-		QuestionRepository repo = new QuestionRepository();
+		QuestionRepository repo = new QuestionRepository(helper);
 		return (repo.GetNextQuestion(id)==null);
 	}
 }

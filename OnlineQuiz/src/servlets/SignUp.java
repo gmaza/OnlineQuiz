@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -8,7 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Interfaces.IUserRepository;
 import Models.User;
+import Repository.UnitOfWork;
 import Repository.UserRepository;
 
 /**
@@ -55,7 +60,10 @@ public class SignUp extends HttpServlet {
 		user.SetUsername(username);
 		user.SetPasswordHash(password);
 		
-		UserRepository userRepo = new UserRepository();
+		ServletConfig sg=getServletConfig();
+		ServletContext sc= sg.getServletContext();
+		UnitOfWork uwork = (UnitOfWork)sc.getAttribute("uwork");
+		IUserRepository userRepo = uwork.GetUsers();
 		
 		if(userRepo.Get(username)!=null || !password.equals(confirmPassword) || password.isEmpty()){
 			response.sendRedirect("Register.jsp");

@@ -16,8 +16,8 @@ public class UserRepository implements IUserRepository {
 
 	DatabaseHelper helper;
 	
-	public UserRepository() {
-		helper = new DatabaseHelper();
+	public UserRepository(DatabaseHelper helper) {
+		this.helper = helper;
 	}
 	
 	@Override

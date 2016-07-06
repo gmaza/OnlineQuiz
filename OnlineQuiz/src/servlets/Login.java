@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -9,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Database.DatabaseHelper;
+import Interfaces.IUserRepository;
+import Repository.UnitOfWork;
 import Repository.UserRepository;
 
 /**
@@ -42,7 +47,12 @@ public class Login extends HttpServlet {
 		
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		UserRepository userRepo = new UserRepository();
+		
+		ServletConfig sg=getServletConfig();
+		ServletContext sc= sg.getServletContext();
+		UnitOfWork uwork = (UnitOfWork)sc.getAttribute("uwork");
+		
+		IUserRepository userRepo = uwork.GetUsers();
 		String token = userRepo.Login(username, password);
 		if(token.isEmpty()) {
 			response.sendRedirect("Login.jsp");

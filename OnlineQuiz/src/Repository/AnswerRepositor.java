@@ -15,8 +15,8 @@ public class AnswerRepositor implements IAnswerRepository {
 
 	DatabaseHelper helper;
 	
-	public AnswerRepositor() {
-		helper = new DatabaseHelper();
+	public AnswerRepositor(DatabaseHelper helper) {
+		this.helper = helper;
 	}
 	
 	@Override
@@ -27,7 +27,7 @@ public class AnswerRepositor implements IAnswerRepository {
 		try {
 			if (rs.next()) {
 				answer = new Answer();
-				QuestionRepository repo = new QuestionRepository();
+				QuestionRepository repo = new QuestionRepository(helper);
 				answer.SetID(rs.getInt("ID"));
 				answer.SetQuestion(repo.Get(rs.getInt("QuestionID")));
 				answer.SetAnswer(rs.getString("Answer"));
@@ -45,7 +45,7 @@ public class AnswerRepositor implements IAnswerRepository {
 		try {
 			while (rs.next()){
 				Answer answer = new Answer();
-				QuestionRepository repo = new QuestionRepository();
+				QuestionRepository repo = new QuestionRepository(helper);
 				answer.SetID(rs.getInt("ID"));
 				answer.SetQuestion(repo.Get(rs.getInt("QuestionID")));
 				answer.SetAnswer(rs.getString("Answer"));

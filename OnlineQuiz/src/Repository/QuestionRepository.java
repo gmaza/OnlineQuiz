@@ -15,8 +15,8 @@ public class QuestionRepository implements IQuestionRepository {
 	
 	DatabaseHelper helper;
 	
-	public QuestionRepository() {
-		helper = new DatabaseHelper();
+	public QuestionRepository(DatabaseHelper helper) {
+		this.helper = helper;
 	}
 
 	private Question GetHelper(ResultSet rs){
@@ -24,7 +24,7 @@ public class QuestionRepository implements IQuestionRepository {
 		try {
 			if (rs.next()) {
 				question = new Question();
-				QuizRepository repo = new QuizRepository();
+				QuizRepository repo = new QuizRepository(helper);
 				question.SetID(rs.getInt("ID"));
 				question.SetQuiz(repo.Get(rs.getInt("QuizID")));
 				question.SetQuestion(rs.getString("Question"));
@@ -49,7 +49,7 @@ public class QuestionRepository implements IQuestionRepository {
 		try {
 			while (rs.next()){
 				Question question = new Question();
-				QuizRepository repo = new QuizRepository();
+				QuizRepository repo = new QuizRepository(helper);
 				question.SetID(rs.getInt("ID"));
 				question.SetQuiz(repo.Get(rs.getInt("QuizID")));
 				question.SetQuestion(rs.getString("Question"));

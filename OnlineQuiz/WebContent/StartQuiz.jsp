@@ -325,11 +325,13 @@
 				<%@ page import="Models.*"%>
 				<%@ page import="java.util.List"%>
 				<%!int questionID = -1;
-				Question question;
+	int id = -1;
+	Question question;
 	private UnitOfWork uwork = new UnitOfWork();%>
 
 				<%
 					questionID = Integer.parseInt(request.getParameter("questionID"));
+					id = Integer.parseInt(request.getParameter("id"));
 					question = uwork.GetQuestions().Get(questionID);
 				%>
 
@@ -338,24 +340,48 @@
 					<section class="panel">
 						<header class="panel-heading"> Please, Answer </header>
 						<div class="panel-body">
-							<form class="form-horizontal" action="CreateNewQuiz"
-								method="post">
-								<div class="form-group">
-									<label class="col-sm-2 control-label"><%=question.GetQuestion() %></label>
-								</div>
-								<div class="form-group">									
-									<div style="marging-left: 80px" class="col-sm-10">
-										<input type="text" id="answer" placeholder="answer" name="answer"
-											class="form-control">
-									</div>
+							<%
+								if (question.IsLast()) {
+							%>
+							<form class="form-horizontal" action="FinishQuiz" method="post">
+								<%
+									} else {
+								%>
+								<form class="form-horizontal" action="SaveAnswer" method="post">
+									<%
+										}
+									%>
 
-								</div>
-								<div class="form-group">
-									<div class="col-sm-10">
-										<button type="submit" class="btn btn-primary">Next</button>
+									<input type="hidden" name="typ" value="0" /> <input
+										type="hidden" name="questionID" value="<%=questionID%>" />
+									<input type="hidden" name="id" value="<%=id%>" />
+
+									<div class="form-group">
+										<label class="col-sm-2 control-label"><%=question.GetQuestion()%></label>
 									</div>
-								</div>
-							</form>
+									<div class="form-group">
+										<div style="marging-left: 80px" class="col-sm-10">
+											<input type="text" id="answer" placeholder="answer"
+												name="answer" class="form-control">
+										</div>
+
+									</div>
+									<div class="form-group">
+										<div class="col-sm-10">
+											<%
+												if (question.IsLast()) {
+											%>
+											<button type="submit" class="btn btn-primary">Finish</button>
+											<%
+												} else {
+											%>
+											<button type="submit" class="btn btn-primary">Next</button>
+											<%
+												}
+											%>
+										</div>
+									</div>
+								</form>
 						</div>
 					</section>
 				</div>

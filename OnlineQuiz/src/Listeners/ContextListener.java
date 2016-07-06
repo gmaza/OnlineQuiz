@@ -31,8 +31,7 @@ public class ContextListener implements ServletContextListener {
 	/**
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
-    public void contextInitialized(ServletContextEvent arg0)  { 
-    	DatabaseHelper helper = new DatabaseHelper();
+    public void contextInitialized(ServletContextEvent arg0)  {     	
          arg0.getServletContext().setAttribute("uwork", new UnitOfWork());
     }
 	
