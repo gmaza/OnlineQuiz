@@ -371,14 +371,20 @@
 
 								<div class="form-group">
 									<div class="col-sm-10">
-										<a href="CreateQuestionResponse.jsp?quizID=<%= quizID %>" class="btn btn-primary">Add
-											Question-Response</a> <a href="CreateMultipleChoice.jsp"
-											class="btn btn-primary">Add Multiple Choice</a> <a
-											href="CreateImage" class="btn btn-primary">Type 1</a> <a
-											href="#" class="btn btn-primary">Type 1</a> <a href="#"
-											class="btn btn-primary">Type 1</a> <a href="#"
-											class="btn btn-primary">Type 1</a> <a href="#"
-											class="btn btn-primary">Type 1</a>
+										<a href="CreateQuestionResponse.jsp?quizID=<%= quizID %>" 
+										class="btn btn-primary">Add
+											Question-Response</a> 
+											
+											
+											
+											<a
+											href="CreatePictureResponse.jsp?quizID=<%= quizID %>"
+											class="btn btn-primary">Add
+											Picture-Response</a> 
+											
+											<a href="CreateMultipleChoice.jsp"
+											class="btn btn-primary">Add Multiple Choice</a> 
+											
 									</div>
 								</div>
 							</form>

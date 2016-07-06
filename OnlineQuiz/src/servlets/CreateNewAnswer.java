@@ -61,6 +61,11 @@ public class CreateNewAnswer extends HttpServlet {
 			answer.SetQuestion(question);
 			uwork.GetAnswers().Save(answer);
 			response.sendRedirect("EditQuestionResponse.jsp?id="+question.GetID());
+		case PictureResponse:
+			answer.SetAnswerType(true);
+			answer.SetQuestion(question);
+			uwork.GetAnswers().Save(answer);
+			response.sendRedirect("EditPictureResponse.jsp?id="+question.GetID());
 		}
 	}
 }
