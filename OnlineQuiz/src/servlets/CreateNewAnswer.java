@@ -61,11 +61,20 @@ public class CreateNewAnswer extends HttpServlet {
 			answer.SetQuestion(question);
 			uwork.GetAnswers().Save(answer);
 			response.sendRedirect("EditQuestionResponse.jsp?id="+question.GetID());
+			break;
 		case PictureResponse:
 			answer.SetAnswerType(true);
 			answer.SetQuestion(question);
 			uwork.GetAnswers().Save(answer);
 			response.sendRedirect("EditPictureResponse.jsp?id="+question.GetID());
+			break;
+		case MultipleChoice:
+			answer.SetAnswerType(true);
+			answer.SetQuestion(question);
+			answer.SetAnswerType(request.getParameter("correct")==null);
+			uwork.GetAnswers().Save(answer);
+			response.sendRedirect("EditMultipleChoice.jsp?id="+question.GetID());
+			break;
 		}
 	}
 }
