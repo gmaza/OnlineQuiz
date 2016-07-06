@@ -17,18 +17,23 @@ public class DatabaseHelper {
 
 	Connection con;
 
-	public DatabaseHelper(){
+	private void declare(){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			con =  DriverManager.getConnection( MyDBInfo.MYSQL_DATABASE_SERVER,
 					MyDBInfo.MYSQL_USERNAME ,
 					MyDBInfo.MYSQL_PASSWORD);
+			
+			con.setAutoCommit(true);
 		}
 		catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public DatabaseHelper(){
+		declare();
 	}
 
 	public int ExcecuteQuery(String query){
@@ -41,7 +46,7 @@ public class DatabaseHelper {
 
 			//bo = stmt.execute();
 			returnID= stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-			
+			//con.commit();
 		    ResultSet rs = stmt.getGeneratedKeys();
 	        if (rs.next()){
 	        	returnID=rs.getInt(1);
@@ -58,6 +63,14 @@ public class DatabaseHelper {
 		catch (Exception ex){
 			String ragaca = ex.getMessage();
 		}
+		
+		try {
+			con.close();
+			declare();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return returnID;
 	}
 	
@@ -70,7 +83,7 @@ public class DatabaseHelper {
 				//		stmt.execute("USE " + "onlinequizdb");
 
 				rs = stmt.executeQuery(query);
-
+				//con.commit();
 				/*	while(rs.next()) {
 					String name = rs.getString("metropolis");
 
@@ -79,6 +92,7 @@ public class DatabaseHelper {
 			}
 			catch (Exception ex){
 			}
+			
 			return rs;
 		}
 
