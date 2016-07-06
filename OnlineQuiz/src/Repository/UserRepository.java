@@ -57,11 +57,8 @@ public class UserRepository implements IUserRepository {
 		// TODO Auto-generated method stub
 		return user;
 	}
-
-	@Override
-	public List<User> GetAll() {
-		String query = "Select * from users";
-		ResultSet rs = helper.ExcecuteSelect(query);
+	
+	private List<User> GetAllHelper(ResultSet rs){
 		ArrayList<User> userList = new ArrayList<User>();
 		try {
 			while (rs.next()) {
@@ -84,6 +81,13 @@ public class UserRepository implements IUserRepository {
 		}
 		// TODO Auto-generated method stub
 		return userList;
+	}
+
+	@Override
+	public List<User> GetAll() {
+		String query = "Select * from users";
+		ResultSet rs = helper.ExcecuteSelect(query);
+		return GetAllHelper(rs);
 	}
 
 	@Override
@@ -153,23 +157,58 @@ public class UserRepository implements IUserRepository {
 		}
 		
 	}
+	
+	public int AddFriend(User from, User to){
+		HashMap<String,String> mp = new HashMap<String,String>();
+		mp.put("UserID1", "" + from.GetID());
+		mp.put("UserID2", "" + to.GetID());
+		mp.put("IsConfirmed", "" + 0);
+		return helper.Insert("friendships", mp);
+	}
+	
+	public void ConfirmFriend(User from, User to){
+		HashMap<String,String> mp1 = new HashMap<String,String>();
+		mp1.put("UserID1", "" + from.GetID());
+		mp1.put("UserID2", "" + to.GetID());
+		mp1.put("IsConfirmed", "" + 1);
+		helper.Insert("friendships", mp1);
+		
+		HashMap<String,String> mp2 = new HashMap<String,String>();
+		mp2.put("UserID1", "" + to.GetID());
+		mp2.put("UserID2", "" + from.GetID());
+		helper.Delete("friendships", mp2);
+		mp2.put("IsConfirmed", "" + 1);
+		helper.Insert("friendships", mp2);
+	}
 
 	@Override
 	public List<User> GetFriends(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		String query = "select users.ID, UserName, PasswordHash, FirstName, LastName, Age, Mail, Score, IsAdmin, LoginToken"
+				+ " from friendships inner join users "
+				+ "on friendships.UserID2=users.ID "
+				+ "where IsConfirmed=1 and friendships.UserID1= " + id;
+		ResultSet rs = helper.ExcecuteSelect(query);
+		return GetAllHelper(rs);
 	}
 
 	@Override
 	public List<User> GetFriends(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		String query = "select users.ID, UserName, PasswordHash, FirstName, LastName, Age, Mail, Score, IsAdmin, LoginToken"
+				+ " from friendships inner join users "
+				+ "on friendships.UserID2=users.ID "
+				+ "where IsConfirmed=1 and friendships.UserID1= " + Get(username).GetID();
+		ResultSet rs = helper.ExcecuteSelect(query);
+		return GetAllHelper(rs);
 	}
 
 	@Override
 	public List<User> GetFriends(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		String query = "select users.ID, UserName, PasswordHash, FirstName, LastName, Age, Mail, Score, IsAdmin, LoginToken"
+				+ " from friendships inner join users "
+				+ "on friendships.UserID2=users.ID "
+				+ "where IsConfirmed=1 and friendships.UserID1= " + user.GetID();
+		ResultSet rs = helper.ExcecuteSelect(query);
+		return GetAllHelper(rs);
 	}
 
 	@Override
