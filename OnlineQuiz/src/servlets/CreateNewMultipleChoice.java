@@ -60,7 +60,7 @@ public class CreateNewMultipleChoice extends HttpServlet {
 
 		Question question = new Question();
 		question.SetQuestion(name);
-		question.SetQuestionType(1);
+		question.SetQuestionType(2);
 		question.SetQuiz(uwork.GetQuizes().Get(Integer.parseInt(quizID)));
 
 		int id = uwork.GetQuestions().Save(question);
