@@ -66,7 +66,7 @@ public class ResultRepository implements IResultRepository {
 		}
 		return resultList;
 	}
-	
+
 	@Override
 	public List<Result> GetAll(int quizID, int userID) {
 		String query = "Select * from results where QuizID = " + quizID + 
@@ -88,7 +88,7 @@ public class ResultRepository implements IResultRepository {
 		ResultSet rs = helper.ExcecuteSelect(query);
 		return GetAllHelper(rs);
 	}
-	
+
 	private AnswerResult GetAnswerResultHelper(ResultSet rs){
 		AnswerResult answerResult = null;	
 		try {
@@ -112,14 +112,14 @@ public class ResultRepository implements IResultRepository {
 		}
 		return answerResult;
 	}
-	
+
 	@Override
 	public AnswerResult GetAnswerResult(int id){
 		String query = "Select * from answerresults where ID = " + id;
 		ResultSet rs = helper.ExcecuteSelect(query);
 		return GetAnswerResultHelper(rs);
 	}
-	
+
 	@Override
 	public AnswerResult GetAnswerResult(int resultID, int answerID){
 		String query = "Select * from answerresults where ResultID = " + resultID +
@@ -127,7 +127,7 @@ public class ResultRepository implements IResultRepository {
 		ResultSet rs = helper.ExcecuteSelect(query);
 		return GetAnswerResultHelper(rs);
 	}
-	
+
 	private List<AnswerResult> GetAllAnswerResultByResultHelper(ResultSet rs){
 		List<AnswerResult> answerResultList = new ArrayList<AnswerResult>();
 		try {
@@ -152,21 +152,21 @@ public class ResultRepository implements IResultRepository {
 		}
 		return answerResultList;
 	}
-	
+
 	@Override
 	public List<AnswerResult> GetAllAnswerResultByResult(int resultID){
 		String query = "Select * from answerresults where ResultID = " + resultID;
 		ResultSet rs = helper.ExcecuteSelect(query);
 		return GetAllAnswerResultByResultHelper(rs);
 	}
-	
+
 	@Override
 	public List<AnswerResult> GetAllAnswerResultByResult(Result result){
 		String query = "Select * from answerresults where ResultID = " + result.GetID();
 		ResultSet rs = helper.ExcecuteSelect(query);
 		return GetAllAnswerResultByResultHelper(rs);
 	}
-	
+
 
 	@Override
 	public boolean Update(Result result) {
@@ -185,16 +185,17 @@ public class ResultRepository implements IResultRepository {
 	@Override
 	public int Save(Result result) {
 		String sdate = new SimpleDateFormat("yyyy-MM-dd").format(result.GetStartDate());
-		String edate = new SimpleDateFormat("yyyy-MM-dd").format(result.GetEndDate());
+		String edate = result.GetEndDate()==null? "null" : new SimpleDateFormat("yyyy-MM-dd").format(result.GetEndDate());
 		HashMap<String,String> mp = new HashMap<String,String>();
 		mp.put("UserID","" +result.GetUser().GetID());
-		mp.put("QuizID","" +result.GetQuiz().GetID());
+		mp.put("QuizID","" +result.GetQuiz().GetID());		
 		mp.put("StartDate","'" +sdate+"'");
-		mp.put("EndDate","'" +edate+"'");
+		if(!edate.equals("null"))
+			mp.put("EndDate","'" +edate+"'");
 		mp.put("Score", "" + result.GetScore());
 		return helper.Insert("results", mp);
 	}
-	
+
 	@Override
 	public int SaveAnswerResult(AnswerResult answerResult){
 		HashMap<String,String> mp = new HashMap<String,String>();
